@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { Suspense } from 'react';
+import { Navigation, Loader, Button, FlexWrapper } from './components';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from './styles/index.css';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import {routes} from './static/routes';
+
+import theme from './styles/theme.js';
+import {buttonTypes, languages} from './static/constants';
+
+function RootPage() {
+  const {regular} = buttonTypes;
+  const {pl, en} = languages;
+
+  return (
+      <>
+        <GlobalStyle />
+        <BrowserRouter>
+          <Navigation routes={routes} RightElement={(
+            <FlexWrapper>
+              <Button type={regular}>{pl}</Button>
+              <Button type={regular}>{en}</Button>
+            </FlexWrapper>
+            )} />
+          <Routes>
+            {routes.map((route) => 
+              <Route key={route.to} path={route.to} element={route.element()} exact={route.exact} />)}
+          </Routes>
+        </BrowserRouter>
+      </>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <ThemeProvider theme={theme}>
+      <Suspense fallback={<Loader />}>
+        <RootPage />
+      </Suspense>
+    </ThemeProvider>
+  )
+};
 
 export default App;
