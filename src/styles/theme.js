@@ -35,6 +35,7 @@ const theme = {
         normal: 'rgb(66, 133, 244)',
       },
       white: {
+        light: 'rgb(253, 253, 253)',
         gray: 'rgb(248, 248, 248)',
       }
     },
