@@ -2,20 +2,21 @@ import { Suspense } from 'react';
 import { Navigation, Loader, Button, FlexWrapper } from './components';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './styles/index.css';
-
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import {routes} from './static/routes';
 
 import theme from './styles/theme.js';
+import {routes} from './static/routes';
 import {buttonTypes, languages} from './static/constants';
+import useInitStore from './hooks/useInitStore';
 
 function RootPage() {
   const {regular} = buttonTypes;
   const {pl, en} = languages;
+  useInitStore();
 
   return (
       <>

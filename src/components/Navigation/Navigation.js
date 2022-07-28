@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import {useLocation} from "react-router-dom";
 import PropTypes from 'prop-types';
 
-import {Container, List, NavigationWrapper} from './Navigation.css.js';
+import {Container, Nav} from './Navigation.css.js';
+import { NavigationWrapper } from "../Wrappers/Wrappers.js";
 import Button from "../Button/Button.js";
 import {buttonTypes} from "../../static/constants.js";
 
@@ -13,7 +14,7 @@ const Navigation = ({routes, RightElement, ...props}) => {
 
     return <Container>
         <NavigationWrapper>
-            <List>
+            <Nav>
                 {routes.map((route) => 
                     <Button 
                         type={inline}
@@ -25,7 +26,7 @@ const Navigation = ({routes, RightElement, ...props}) => {
                             {route.name}
                     </Button>
                 )}
-            </List>
+            </Nav>
             {RightElement}
         </NavigationWrapper>
     </Container>

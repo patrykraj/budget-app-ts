@@ -7,6 +7,11 @@
       {
         "id": 2,
         "name": "Rachunki i media"
+      },
+      {
+        "id": 0,
+        "name": "Inne",
+        "categoryId": 0
       }
     ],
     "categories": [
@@ -109,6 +114,14 @@
         "amount": 23.88,
         "categoryId": 6,
         "date": "2019-12-17T15:41:01.768Z",
+        "budgetId": 1
+      },
+      {
+        "id": 4,
+        "description": "Straty spowodowane głupotą",
+        "amount": 123.88,
+        "categoryId": 0,
+        "date": "2021-12-17T15:41:01.768Z",
         "budgetId": 1
       }
     ]
