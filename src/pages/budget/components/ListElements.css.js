@@ -8,8 +8,7 @@ export const ParentCategoryElement = styled.li`
     padding: ${({theme}) => theme.spacing.xxs}px;
     background: ${({theme}) => theme.colors.gray.light};
 
-    span {
-        display: block;
+    div {
         cursor: pointer;
     }
 `;

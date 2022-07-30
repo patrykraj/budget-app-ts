@@ -1,7 +1,9 @@
 import { getTransactions } from './transactionsSlice';
-import { getParentCategories } from './parentCategoriesSlice';
+import { getAllCategories } from './parentCategoriesSlice';
+import { getBudgetCategories } from './budgetCategoriesSlice';
 
 export {
-    getParentCategories,
+    getAllCategories,
     getTransactions,
+    getBudgetCategories,
 };

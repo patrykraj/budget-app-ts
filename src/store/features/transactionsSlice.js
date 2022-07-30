@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import client from '../../client';
 
 export const getTransactions = createAsyncThunk('transactions/getTransactions', () => {
-  return client.get('transactions')
+  return client.get('transactions?_expand=category')
     .then((res) => res.json())
     .catch((err) => err.message);
 });

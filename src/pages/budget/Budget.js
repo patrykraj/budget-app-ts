@@ -6,20 +6,20 @@ import ParentCategory from './components';
 import Grid from './Budget.css';
 
 const Budget = () => {
-    const {parentCategories, isLoading} = useSelector((store) => store.parentCategories);
-    const transactions = useSelector((store) => store.transactions);
-    const [activeParentCategory, setActiveParentCategory] = useState(null);
-    const [transactionIds, setTransactionIds] = useState([]);
+    const {parentCategories, allCategories, isLoading} = useSelector((store) => store.parentCategories);
+    const {transactions} = useSelector((store) => store.transactions);
+    const [activeParentCategoryId, setActiveParentCategory] = useState(null);
 
     const content = isLoading ? <Loader /> : parentCategories.map((item) => 
         <ParentCategory
             key={item.id}
             id={item.id}
             name={item.name}
-            active={item.id === activeParentCategory}
+            active={item.id === activeParentCategoryId}
             setActive={setActiveParentCategory}
-            setTransactionIds={setTransactionIds}
-            items={item.categories}    
+            items={allCategories}
+            transactions={transactions.filter((transaction) => transaction.category.parentCategoryId === item.id)}
+            noExtend={item.noExtend}    
         />
     );
 
@@ -33,9 +33,11 @@ const Budget = () => {
                 </section>
                 <section>
                     <ul>
-                        {transactions.transactions.map((item) => transactionIds.includes(item.categoryId) && <li key={item.id}>
-                            {`${item.description}, Price: $${item.amount}`}
-                        </li>)}
+                        {transactions.length && transactions.map((item) => activeParentCategoryId === item.category.parentCategoryId && 
+                            <li key={item.id}>
+                                {`${item.description}, Cena: ${item.amount}zł`}
+                            </li>)
+                        }
                     </ul>
                 </section>
             </Grid>
