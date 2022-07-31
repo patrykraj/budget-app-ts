@@ -1,14 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import client from '../../client';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import client from "../../client";
 
-export const getBudgetCategories = createAsyncThunk('budgetCategories/getBudgetCategories', () => {
-  return client.get('budgetCategories')
-    .then((res) => res.json())
-    .catch((err) => err.message);
-});
+export const getBudgetCategories = createAsyncThunk(
+  "budgetCategories/getBudgetCategories",
+  () => {
+    return client
+      .get("budgetCategories")
+      .then((res) => res.json())
+      .catch((err) => err.message);
+  }
+);
 
 export const budgetCategoriesSlice = createSlice({
-  name: 'budgetCategories',
+  name: "budgetCategories",
   initialState: {
     budgetCategories: [],
     isLoading: false,
@@ -22,7 +26,7 @@ export const budgetCategoriesSlice = createSlice({
   extraReducers: {
     [getBudgetCategories.pending]: (state) => {
       state.isLoading = true;
-      if(state.errorMessage) state.errorMessage = null;
+      if (state.errorMessage) state.errorMessage = null;
     },
     [getBudgetCategories.fulfilled]: (state, action) => {
       state.isLoading = false;

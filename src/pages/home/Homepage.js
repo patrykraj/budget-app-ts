@@ -1,11 +1,12 @@
-import {Wrapper} from '../../components';
+import React from "react";
+import { Wrapper } from "../../components";
 
-const Homepage = () => {
-    return (
-        <Wrapper>
-            <div>HOMEPAGE</div>
-        </Wrapper>
-    )
-};
+function Homepage() {
+  return (
+    <Wrapper>
+      <div>HOMEPAGE</div>
+    </Wrapper>
+  );
+}
 
 export default Homepage;

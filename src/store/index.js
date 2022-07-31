@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import transactionsSlice from './features/transactionsSlice';
-import allCategoriesSlice from './features/parentCategoriesSlice';
-import budgetCategoriesSlice from './features/budgetCategoriesSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import transactionsSlice from "./features/transactionsSlice";
+import allCategoriesSlice from "./features/parentCategoriesSlice";
+import budgetCategoriesSlice from "./features/budgetCategoriesSlice";
 
 export default configureStore({
   reducer: {

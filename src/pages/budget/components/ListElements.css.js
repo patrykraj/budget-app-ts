@@ -1,14 +1,14 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const List = styled.ul`
-    padding: ${({theme}) => theme.spacing.xs}px;
+  padding: ${({ theme }) => theme.spacing.xs}px;
 `;
 
 export const ParentCategoryElement = styled.li`
-    padding: ${({theme}) => theme.spacing.xxs}px;
-    background: ${({theme}) => theme.colors.gray.light};
+  padding: ${({ theme }) => theme.spacing.xxs}px;
+  background: ${({ theme }) => theme.colors.gray.light};
 
-    div {
-        cursor: pointer;
-    }
+  div {
+    cursor: pointer;
+  }
 `;

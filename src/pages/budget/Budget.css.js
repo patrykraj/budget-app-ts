@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 const Grid = styled.div`
-    display: flex;
+  display: flex;
 
-    section:nth-child(1) {
-        flex: 4;
-    }
+  section:nth-child(1) {
+    flex: 4;
+  }
 
-    section:nth-child(2) {
-        flex: 8;
-    }
+  section:nth-child(2) {
+    flex: 8;
+  }
 `;
 
 export default Grid;

@@ -2,11 +2,13 @@
     "parentCategories": [
       {
         "id": 1,
-        "name": "Zakupy"
+        "name": "Zakupy",
+        "noExtend": false
       },
       {
         "id": 2,
-        "name": "Rachunki i media"
+        "name": "Rachunki i media",
+        "noExtend": false
       },
       {
         "id": 3,

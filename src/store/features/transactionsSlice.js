@@ -1,14 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import client from '../../client';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import client from "../../client";
 
-export const getTransactions = createAsyncThunk('transactions/getTransactions', () => {
-  return client.get('transactions?_expand=category')
-    .then((res) => res.json())
-    .catch((err) => err.message);
-});
+export const getTransactions = createAsyncThunk(
+  "transactions/getTransactions",
+  () => {
+    return client
+      .get("transactions?_expand=category")
+      .then((res) => res.json())
+      .catch((err) => err.message);
+  }
+);
 
 export const transactionsSlice = createSlice({
-  name: 'transactions',
+  name: "transactions",
   initialState: {
     transactions: [],
     isLoading: false,
@@ -22,7 +26,7 @@ export const transactionsSlice = createSlice({
   extraReducers: {
     [getTransactions.pending]: (state) => {
       state.isLoading = true;
-      if(state.errorMessage) state.errorMessage = null;
+      if (state.errorMessage) state.errorMessage = null;
     },
     [getTransactions.fulfilled]: (state, action) => {
       state.isLoading = false;
