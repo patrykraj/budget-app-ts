@@ -2,16 +2,18 @@
     "parentCategories": [
       {
         "id": 1,
-        "name": "Zakupy"
+        "name": "Zakupy",
+        "noExtend": false
       },
       {
         "id": 2,
-        "name": "Rachunki i media"
+        "name": "Rachunki i media",
+        "noExtend": false
       },
       {
-        "id": 0,
+        "id": 3,
         "name": "Inne",
-        "categoryId": 0
+        "noExtend": true
       }
     ],
     "categories": [
@@ -44,6 +46,11 @@
         "id": 6,
         "name": "Chemia",
         "parentCategoryId": 1
+      },
+      {
+        "id": 7,
+        "name": "Inne",
+        "parentCategoryId": 3
       }
     ],
     "budgetCategories": [
@@ -117,12 +124,21 @@
         "budgetId": 1
       },
       {
+        "id": 5,
+        "description": "Cotygodniowe zakupy",
+        "amount": 1.00,
+        "categoryId": 6,
+        "date": "2019-12-17T15:41:01.768Z",
+        "budgetId": 1
+      },
+      {
         "id": 4,
         "description": "Straty spowodowane głupotą",
         "amount": 123.88,
-        "categoryId": 0,
+        "categoryId": 7,
         "date": "2021-12-17T15:41:01.768Z",
         "budgetId": 1
       }
     ]
   }
+  

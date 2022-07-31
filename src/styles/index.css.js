@@ -1,7 +1,7 @@
-import { createGlobalStyle } from 'styled-components'
-import { normalize } from 'styled-normalize'
- 
-export const GlobalStyle = createGlobalStyle`
+import { createGlobalStyle } from "styled-components";
+import { normalize } from "styled-normalize";
+
+const GlobalStyle = createGlobalStyle`
   ${normalize}
     padding: 0;
     background-color: black;
@@ -24,4 +24,6 @@ export const GlobalStyle = createGlobalStyle`
         margin-left: ${({ theme }) => theme.spacing.xs}px;
       }
     }
-`
+`;
+
+export default GlobalStyle;

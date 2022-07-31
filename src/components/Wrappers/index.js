@@ -1,6 +1,6 @@
 export {
-    Wrapper,
-    PageWrapper,
-    FlexWrapper,
-    NavigationWrapper,
-} from './Wrappers';
+  Wrapper,
+  PageWrapper,
+  FlexWrapper,
+  NavigationWrapper,
+} from "./Wrappers";

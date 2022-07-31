@@ -1,41 +1,46 @@
-import { Suspense } from 'react';
-import { Navigation, Loader, Button, FlexWrapper } from './components';
-import { ThemeProvider } from 'styled-components';
-import { GlobalStyle } from './styles/index.css';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React, { Suspense } from "react";
+import { ThemeProvider } from "styled-components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigation, Loader, Button, FlexWrapper } from "./components";
+import GlobalStyle from "./styles/index.css";
 
-import theme from './styles/theme.js';
-import {routes} from './static/routes';
-import {buttonTypes, languages} from './static/constants';
-import useInitStore from './hooks/useInitStore';
+import theme from "./styles/theme";
+import routes from "./static/routes";
+import { buttonTypes, languages } from "./static/constants";
+import useInitStore from "./hooks/useInitStore";
 
 function RootPage() {
-  const {regular} = buttonTypes;
-  const {pl, en} = languages;
+  const { regular } = buttonTypes;
+  const { pl, en } = languages;
   useInitStore();
 
   return (
-      <>
-        <GlobalStyle />
-        <BrowserRouter>
-          <Navigation routes={routes} RightElement={(
+    <>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Navigation
+          routes={routes}
+          RightElement={
             <FlexWrapper>
               <Button type={regular}>{pl}</Button>
               <Button type={regular}>{en}</Button>
             </FlexWrapper>
-            )} />
-          <Routes>
-            {routes.map((route) => 
-              <Route key={route.to} path={route.to} element={route.element()} exact={route.exact} />)}
-          </Routes>
-        </BrowserRouter>
-      </>
+          }
+        />
+        <Routes>
+          {routes.map((route) => (
+            <Route
+              key={route.to}
+              path={route.to}
+              element={route.element()}
+              exact={route.exact}
+            />
+          ))}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
-};
+}
 
 function App() {
   return (
@@ -44,7 +49,7 @@ function App() {
         <RootPage />
       </Suspense>
     </ThemeProvider>
-  )
-};
+  );
+}
 
 export default App;

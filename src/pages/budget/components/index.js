@@ -1,1 +1,1 @@
-export {default} from './ParentCategory';
+export { default } from "./ParentCategory";

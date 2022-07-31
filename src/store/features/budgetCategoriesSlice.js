@@ -1,44 +1,42 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "../../client";
 
-export const getTransactions = createAsyncThunk(
-  "transactions/getTransactions",
+export const getBudgetCategories = createAsyncThunk(
+  "budgetCategories/getBudgetCategories",
   () => {
     return client
-      .get("transactions?_expand=category")
+      .get("budgetCategories")
       .then((res) => res.json())
       .catch((err) => err.message);
   }
 );
 
-export const transactionsSlice = createSlice({
-  name: "transactions",
+export const budgetCategoriesSlice = createSlice({
+  name: "budgetCategories",
   initialState: {
-    transactions: [],
+    budgetCategories: [],
     isLoading: false,
     errorMessage: null,
   },
   reducers: {
     setTransactions: (state, action) => {
-      state.transactions = action.payload;
+      state.budgetCategories = action.payload;
     },
   },
   extraReducers: {
-    [getTransactions.pending]: (state) => {
+    [getBudgetCategories.pending]: (state) => {
       state.isLoading = true;
       if (state.errorMessage) state.errorMessage = null;
     },
-    [getTransactions.fulfilled]: (state, action) => {
+    [getBudgetCategories.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.transactions = action.payload;
+      state.budgetCategories = action.payload;
     },
-    [getTransactions.rejected]: (state, action) => {
+    [getBudgetCategories.rejected]: (state, action) => {
       state.isLoading = false;
       state.errorMessage = action.payload;
     },
   },
 });
 
-export const { setTransactions } = transactionsSlice.actions;
-
-export default transactionsSlice.reducer;
+export default budgetCategoriesSlice.reducer;
