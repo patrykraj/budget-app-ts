@@ -28,6 +28,10 @@
         "react/jsx-props-no-spreading": 0,
         "no-return-assign": 0,
         "no-param-reassign": 0,
-        "import/no-named-as-default": 0
+        "import/no-named-as-default": 0,
+        "react/function-component-definition": [1, {
+            "namedComponents": ["function-declaration", "function-expression", "arrow-function" ],
+            "unnamedComponents": "function-expression"
+          }]
     }
 }

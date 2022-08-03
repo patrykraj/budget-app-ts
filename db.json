@@ -56,19 +56,19 @@
     "budgetCategories": [
       {
         "id": 1,
-        "budget": 120.47,
+        "budget": 120,
         "categoryId": 1,
         "budgetId": 1
       },
       {
         "id": 2,
-        "budget": 39.99,
+        "budget": 40,
         "categoryId": 2,
         "budgetId": 1
       },
       {
         "id": 3,
-        "budget": 723,
+        "budget": 1200,
         "categoryId": 3,
         "budgetId": 1
       },
@@ -80,7 +80,7 @@
       },
       {
         "id": 5,
-        "budget": 450,
+        "budget": 500,
         "categoryId": 5,
         "budgetId": 1
       },
@@ -88,6 +88,12 @@
         "id": 6,
         "budget": 80,
         "categoryId": 6,
+        "budgetId": 1
+      },
+      {
+        "id": 7,
+        "budget": 400,
+        "categoryId": 7,
         "budgetId": 1
       }
     ],
