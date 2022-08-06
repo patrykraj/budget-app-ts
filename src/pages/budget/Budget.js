@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { PageWrapper, Loader } from "../../components";
-import { ParentCategory, Transactions } from "./components";
+import { Transactions } from "./components";
+import ParentCategory from "./components/ParentCategory";
 import Grid from "./Budget.css";
+import { TOTAL } from "../../static/constants";
 
 function Budget() {
-  const { parentCategories, allCategories, isLoading } = useSelector(
+  const { parentCategories, allCategories, isCategoriesLoading } = useSelector(
     (store) => store.parentCategories
   );
-  const { transactions } = useSelector((store) => store.transactions);
+  const { transactions, isTransactionsLoading } = useSelector(
+    (store) => store.transactions
+  );
   const [activeParentCategoryId, setActiveParentCategory] = useState([]);
+
+  const isLoading = useMemo(() => {
+    return isCategoriesLoading || isTransactionsLoading;
+  }, [isCategoriesLoading, isTransactionsLoading]);
 
   const menuContent = isLoading ? (
     <Loader />
@@ -22,13 +30,10 @@ function Budget() {
         name={item.name}
         active={
           activeParentCategoryId.length === 1 &&
-          activeParentCategoryId.includes(item.id)
+          activeParentCategoryId[0] === item.id
         }
         onclick={setActiveParentCategory}
         items={allCategories}
-        transactions={transactions.filter(
-          (transaction) => transaction.category.parentCategoryId === item.id
-        )}
         noExtend={item.noExtend}
       />
     ))
@@ -41,11 +46,10 @@ function Budget() {
           <ul>
             <ParentCategory
               id={parentCategories.length + 1}
-              name="Razem"
+              name={TOTAL}
               active={activeParentCategoryId.length > 1}
               onclick={setActiveParentCategory}
               items={allCategories}
-              transactions={transactions}
               showAllElements
               noExtend
             />

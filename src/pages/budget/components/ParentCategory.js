@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+
 import { List, ParentCategoryElement } from "./ListElements.css";
-import formatCurrency from "../../../utils/formatCurrency";
+import formatCurrency from "../../../utils";
 import { ChildCategories } from "./index";
 
 const ParentCategory = ({
@@ -11,22 +13,10 @@ const ParentCategory = ({
   onclick,
   items,
   noExtend,
-  transactions,
   showAllElements,
 }) => {
-  const getAmount = (categoryId) => {
-    return transactions.reduce((acc, transaction) => {
-      if (categoryId === transaction.categoryId)
-        return (acc += transaction.amount);
-      return acc;
-    }, 0);
-  };
-
-  function getExpenses() {
-    return transactions.reduce((acc, transaction) => {
-      return (acc += transaction.amount);
-    }, 0);
-  }
+  const { budgetedCategories } = useSelector((store) => store.parentCategories);
+  const { spentAmount } = useSelector((store) => store.transactions);
 
   function handleTransactions() {
     if (active) {
@@ -49,11 +39,20 @@ const ParentCategory = ({
         aria-pressed="false"
       >
         <span>{name}</span>
-        <span>{formatCurrency(getExpenses())}</span>
+        <span className="data-field">
+          {showAllElements
+            ? formatCurrency(budgetedCategories.total)
+            : formatCurrency(budgetedCategories[id])}
+        </span>
+        <span className="data-field">
+          {showAllElements
+            ? formatCurrency(spentAmount?.parentCategories?.totalSpent)
+            : formatCurrency(spentAmount.parentCategories[id])}
+        </span>
       </div>
       {active && !noExtend && (
         <List>
-          <ChildCategories items={items} id={id} getAmount={getAmount} />
+          <ChildCategories items={items} id={id} spentAmount={spentAmount} />
         </List>
       )}
     </ParentCategoryElement>
@@ -64,7 +63,6 @@ export default React.memo(ParentCategory);
 
 ParentCategory.defaultProps = {
   items: [],
-  transactions: [],
   showAllElements: false,
 };
 
@@ -75,6 +73,5 @@ ParentCategory.propTypes = {
   onclick: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({})),
   noExtend: PropTypes.bool.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.shape({})),
   showAllElements: PropTypes.bool,
 };

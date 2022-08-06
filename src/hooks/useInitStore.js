@@ -1,10 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  getAllCategories,
-  getTransactions,
-  getBudgetCategories,
-} from "../store/features";
+import { getAllCategories, getTransactions } from "../store/features";
 
 function useInitStore() {
   const dispatch = useDispatch();
@@ -12,7 +8,6 @@ function useInitStore() {
   useEffect(() => {
     dispatch(getTransactions());
     dispatch(getAllCategories());
-    dispatch(getBudgetCategories());
   }, [dispatch]);
 }
 

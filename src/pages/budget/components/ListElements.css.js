@@ -9,7 +9,15 @@ export const List = styled.ul`
     justify-content: space-between;
     background: ${({ theme }) => theme.colors.gray.dark};
     padding: ${({ theme }) => theme.spacing.xxs}px;
-    padding-right: 0;
+    padding-right: 5px;
+
+    span {
+      flex: 1 1 0;
+
+      &.data-field {
+        text-align: right;
+      }
+    }
   }
 
   li + li {
@@ -26,5 +34,13 @@ export const ParentCategoryElement = styled.li`
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+
+    span {
+      flex: 1 1 0;
+
+      &.data-field {
+        text-align: right;
+      }
+    }
   }
 `;
