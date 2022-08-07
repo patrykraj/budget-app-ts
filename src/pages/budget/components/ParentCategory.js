@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { List, ParentCategoryElement } from "./ListElements.css";
-import formatCurrency from "../../../utils/formatCurrency";
-import { ChildCategories } from "./index";
+
+import { List, ParentCategoryElement, ChildCategories } from "./index";
+import formatCurrency from "../../../utils";
 
 const ParentCategory = ({
   id,
@@ -11,35 +12,29 @@ const ParentCategory = ({
   onclick,
   items,
   noExtend,
-  transactions,
-  showAllElements,
+  summary,
 }) => {
-  const getAmount = (categoryId) => {
-    return transactions.reduce((acc, transaction) => {
-      if (categoryId === transaction.categoryId)
-        return (acc += transaction.amount);
-      return acc;
-    }, 0);
-  };
-
-  function getExpenses() {
-    return transactions.reduce((acc, transaction) => {
-      return (acc += transaction.amount);
-    }, 0);
-  }
+  const { budgetedCategories } = useSelector((store) => store.parentCategories);
+  const { spentAmount } = useSelector((store) => store.transactions);
+  const exceed = useMemo(() => {
+    return spentAmount.parentCategories &&
+      spentAmount.parentCategories[id] > budgetedCategories[id]
+      ? "true"
+      : null;
+  }, [spentAmount, budgetedCategories]);
 
   function handleTransactions() {
     if (active) {
       return onclick([]);
     }
-    if (showAllElements) {
+    if (summary) {
       return onclick(items.map((i) => i.parentCategoryId));
     }
     return onclick([id]);
   }
 
   return (
-    <ParentCategoryElement key={id}>
+    <ParentCategoryElement key={id} exceed={exceed}>
       <div
         className="parent-category-container"
         onClick={handleTransactions}
@@ -49,11 +44,20 @@ const ParentCategory = ({
         aria-pressed="false"
       >
         <span>{name}</span>
-        <span>{formatCurrency(getExpenses())}</span>
+        <span className="data-field">
+          {summary
+            ? formatCurrency(budgetedCategories.total)
+            : formatCurrency(budgetedCategories[id])}
+        </span>
+        <span className="data-field spent">
+          {summary
+            ? formatCurrency(spentAmount?.parentCategories?.totalSpent)
+            : formatCurrency(spentAmount.parentCategories[id])}
+        </span>
       </div>
-      {active && !noExtend && (
+      {active && !summary && !noExtend && (
         <List>
-          <ChildCategories items={items} id={id} getAmount={getAmount} />
+          <ChildCategories items={items} id={id} spentAmount={spentAmount} />
         </List>
       )}
     </ParentCategoryElement>
@@ -64,8 +68,7 @@ export default React.memo(ParentCategory);
 
 ParentCategory.defaultProps = {
   items: [],
-  transactions: [],
-  showAllElements: false,
+  summary: false,
 };
 
 ParentCategory.propTypes = {
@@ -75,6 +78,5 @@ ParentCategory.propTypes = {
   onclick: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({})),
   noExtend: PropTypes.bool.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.shape({})),
-  showAllElements: PropTypes.bool,
+  summary: PropTypes.bool,
 };

@@ -9,7 +9,19 @@ export const List = styled.ul`
     justify-content: space-between;
     background: ${({ theme }) => theme.colors.gray.dark};
     padding: ${({ theme }) => theme.spacing.xxs}px;
-    padding-right: 0;
+    padding-right: 5px;
+
+    span {
+      flex: 1 1 0;
+
+      &.data-field {
+        text-align: right;
+
+        &.exceed {
+          color: ${({ theme }) => theme.colors.red.dark};
+        }
+      }
+    }
   }
 
   li + li {
@@ -26,5 +38,30 @@ export const ParentCategoryElement = styled.li`
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+
+    span {
+      flex: 1 1 0;
+
+      &.data-field {
+        text-align: right;
+
+        &.spent {
+          color: ${({ theme, exceed }) =>
+            exceed ? theme.colors.red.dark : "inherit"};
+        }
+      }
+    }
+  }
+`;
+
+export const InfoElement = styled.li`
+  display: flex;
+  background: ${({ theme }) => theme.colors.gray.light};
+
+  span {
+    display: inline-block;
+    flex: 1 1 0;
+    background: transparent;
+    text-align: center;
   }
 `;
