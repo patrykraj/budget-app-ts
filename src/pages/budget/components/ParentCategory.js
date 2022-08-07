@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { List, ParentCategoryElement } from "./ListElements.css";
+import { List, ParentCategoryElement, ChildCategories } from "./index";
 import formatCurrency from "../../../utils";
-import { ChildCategories } from "./index";
 
 const ParentCategory = ({
   id,
@@ -13,23 +12,29 @@ const ParentCategory = ({
   onclick,
   items,
   noExtend,
-  showAllElements,
+  summary,
 }) => {
   const { budgetedCategories } = useSelector((store) => store.parentCategories);
   const { spentAmount } = useSelector((store) => store.transactions);
+  const exceed = useMemo(() => {
+    return spentAmount.parentCategories &&
+      spentAmount.parentCategories[id] > budgetedCategories[id]
+      ? "true"
+      : null;
+  }, [spentAmount, budgetedCategories]);
 
   function handleTransactions() {
     if (active) {
       return onclick([]);
     }
-    if (showAllElements) {
+    if (summary) {
       return onclick(items.map((i) => i.parentCategoryId));
     }
     return onclick([id]);
   }
 
   return (
-    <ParentCategoryElement key={id}>
+    <ParentCategoryElement key={id} exceed={exceed}>
       <div
         className="parent-category-container"
         onClick={handleTransactions}
@@ -40,17 +45,17 @@ const ParentCategory = ({
       >
         <span>{name}</span>
         <span className="data-field">
-          {showAllElements
+          {summary
             ? formatCurrency(budgetedCategories.total)
             : formatCurrency(budgetedCategories[id])}
         </span>
-        <span className="data-field">
-          {showAllElements
+        <span className="data-field spent">
+          {summary
             ? formatCurrency(spentAmount?.parentCategories?.totalSpent)
             : formatCurrency(spentAmount.parentCategories[id])}
         </span>
       </div>
-      {active && !noExtend && (
+      {active && !summary && !noExtend && (
         <List>
           <ChildCategories items={items} id={id} spentAmount={spentAmount} />
         </List>
@@ -63,7 +68,7 @@ export default React.memo(ParentCategory);
 
 ParentCategory.defaultProps = {
   items: [],
-  showAllElements: false,
+  summary: false,
 };
 
 ParentCategory.propTypes = {
@@ -73,5 +78,5 @@ ParentCategory.propTypes = {
   onclick: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({})),
   noExtend: PropTypes.bool.isRequired,
-  showAllElements: PropTypes.bool,
+  summary: PropTypes.bool,
 };

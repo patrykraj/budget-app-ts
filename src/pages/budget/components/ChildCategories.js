@@ -9,7 +9,11 @@ const ChildCategories = ({ items, id, spentAmount }) => {
         <li key={category.id}>
           <span>{category.name}</span>
           <span className="data-field">{formatCurrency(budget)}</span>
-          <span className="data-field">
+          <span
+            className={`data-field ${
+              spentAmount[category.id] > budget ? "exceed" : ""
+            }`}
+          >
             {formatCurrency(spentAmount[category.id] || 0)}
           </span>
         </li>

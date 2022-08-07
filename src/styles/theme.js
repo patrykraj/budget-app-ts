@@ -26,7 +26,8 @@ const theme = {
       normal: "rgb(85, 150, 0)",
     },
     red: {
-      normal: "rgb(165, 61, 54)",
+      normal: "rgb(255, 0, 0)",
+      dark: "rgb(220, 20, 60)",
     },
     pink: {
       normal: "rgb(219, 112, 147)",

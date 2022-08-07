@@ -16,6 +16,10 @@ export const List = styled.ul`
 
       &.data-field {
         text-align: right;
+
+        &.exceed {
+          color: ${({ theme }) => theme.colors.red.dark};
+        }
       }
     }
   }
@@ -40,7 +44,24 @@ export const ParentCategoryElement = styled.li`
 
       &.data-field {
         text-align: right;
+
+        &.spent {
+          color: ${({ theme, exceed }) =>
+            exceed ? theme.colors.red.dark : "inherit"};
+        }
       }
     }
+  }
+`;
+
+export const InfoElement = styled.li`
+  display: flex;
+  background: ${({ theme }) => theme.colors.gray.light};
+
+  span {
+    display: inline-block;
+    flex: 1 1 0;
+    background: transparent;
+    text-align: center;
   }
 `;

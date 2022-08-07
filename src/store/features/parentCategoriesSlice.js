@@ -20,8 +20,8 @@ export const allCategoriesSlice = createSlice({
     allCategories: [],
     parentCategories: [],
     budgetedCategories: {},
-    isCategoriesLoading: false,
-    errorMessage: null,
+    isCategoriesLoading: true,
+    categoriesErrorMessage: null,
   },
   reducers: {
     setBudgetedCategories: (state, { payload }) => {
@@ -30,8 +30,8 @@ export const allCategoriesSlice = createSlice({
   },
   extraReducers: {
     [getAllCategories.pending]: (state) => {
-      state.isLoading = true;
-      if (state.errorMessage) state.errorMessage = null;
+      state.isCategoriesLoading = true;
+      if (state.categoriesErrorMessage) state.categoriesErrorMessage = null;
     },
     [getAllCategories.fulfilled]: (state, { payload }) => {
       const parentCategories = payload.reduce((acc, { parentCategory }) => {
@@ -59,11 +59,11 @@ export const allCategoriesSlice = createSlice({
       state.allCategories = payload;
       state.budgetedCategories = { ...budgetedCategoriesTemp };
       state.parentCategories = uniqueParentCategories;
-      state.isLoading = false;
+      state.isCategoriesLoading = false;
     },
     [getAllCategories.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.errorMessage = action.payload;
+      state.categoriesErrorMessage = action.payload;
+      state.isCategoriesLoading = false;
     },
   },
 });

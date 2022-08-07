@@ -3,7 +3,11 @@ export const buttonTypes = {
   regular: "regular",
 };
 
-export const TOTAL = "Razem";
+export const strings = {
+  total: "Razem",
+  budget: "Budzet",
+  spent: "Wydano",
+};
 
 export const userId = 1;
 

@@ -17,8 +17,8 @@ export const transactionsSlice = createSlice({
   initialState: {
     transactions: [],
     spentAmount: {},
-    isTransactionsLoading: false,
-    errorMessage: null,
+    isTransactionsLoading: true,
+    transactionsErrorMessage: null,
   },
   reducers: {
     setTransactions: (state, action) => {
@@ -27,8 +27,8 @@ export const transactionsSlice = createSlice({
   },
   extraReducers: {
     [getTransactions.pending]: (state) => {
-      state.isLoading = true;
-      if (state.errorMessage) state.errorMessage = null;
+      state.isTransactionsLoading = true;
+      if (state.transactionsErrorMessage) state.transactionsErrorMessage = null;
     },
     [getTransactions.fulfilled]: (state, { payload }) => {
       const spentValues = payload.reduce(
@@ -67,11 +67,11 @@ export const transactionsSlice = createSlice({
 
       state.spentAmount = spentValues;
       state.transactions = payload;
-      state.isLoading = false;
+      state.isTransactionsLoading = false;
     },
     [getTransactions.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.errorMessage = action.payload;
+      state.transactionsErrorMessage = action.payload;
+      state.isTransactionsLoading = false;
     },
   },
 });
