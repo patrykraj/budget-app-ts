@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -23,7 +23,7 @@ const ParentCategory = ({
       : null;
   }, [spentAmount, budgetedCategories]);
 
-  function handleTransactions() {
+  const handleTransactions = useCallback(() => {
     if (active) {
       return onclick([]);
     }
@@ -31,7 +31,7 @@ const ParentCategory = ({
       return onclick(items.map((i) => i.parentCategoryId));
     }
     return onclick([id]);
-  }
+  }, [id, active, summary]);
 
   return (
     <ParentCategoryElement key={id} exceed={exceed}>

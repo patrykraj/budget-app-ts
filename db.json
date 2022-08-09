@@ -99,14 +99,14 @@
       {
         "id": 6,
         "budget": 80,
-        "categoryId": 6,
+        "categoryId": 7,
         "budgetId": 1,
         "parentCategoryId": 3
       },
       {
         "id": 7,
         "budget": 400,
-        "categoryId": 7,
+        "categoryId": 6,
         "budgetId": 1,
         "parentCategoryId": 1
       }

@@ -29,10 +29,12 @@
         "no-return-assign": 0,
         "no-param-reassign": 0,
         "import/no-named-as-default": 0,
+        "import/named": 0,
         "react/function-component-definition": [1, {
             "namedComponents": ["function-declaration", "function-expression", "arrow-function" ],
             "unnamedComponents": "function-expression"
           }],
-        "no-plusplus": 0
+        "no-plusplus": 0,
+        "jsx-a11y/label-has-associated-control": 0
     }
 }

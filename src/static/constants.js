@@ -3,10 +3,14 @@ export const buttonTypes = {
   regular: "regular",
 };
 
-export const strings = {
+export const budgetPageStrings = {
   total: "Razem",
   budget: "Budzet",
   spent: "Wydano",
+};
+
+export const formStrings = {
+  dateFormat: "dd/MM/yyyy",
 };
 
 export const userId = 1;

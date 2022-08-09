@@ -1,7 +1,7 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { ThemeProvider } from "styled-components";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Navigation, Loader, Button, FlexWrapper } from "./components";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Navigation, Button, FlexWrapper } from "./components";
 import GlobalStyle from "./styles/index.css";
 
 import theme from "./styles/theme";
@@ -31,11 +31,12 @@ function RootPage() {
           {routes.map((route) => (
             <Route
               key={route.to}
-              path={route.to}
+              path={route.path || route.to}
               element={route.element()}
               exact={route.exact}
             />
           ))}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </>
@@ -45,9 +46,7 @@ function RootPage() {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Suspense fallback={<Loader />}>
-        <RootPage />
-      </Suspense>
+      <RootPage />
     </ThemeProvider>
   );
 }

@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { PageWrapper, Loader } from "../../components";
 import { Transactions, InfoElement } from "./components";
 import ParentCategory from "./components/ParentCategory";
 import Grid from "./Budget.css";
-import { strings } from "../../static/constants";
+import { budgetPageStrings } from "../../static/constants";
+import budgetRoutes from "../../static/budgetRoutes";
 
 function Budget() {
   const {
@@ -26,7 +28,7 @@ function Budget() {
     return categoriesErrorMessage || transactionsErrorMessage;
   }, [categoriesErrorMessage, transactionsErrorMessage]);
 
-  const { total, budget, spent } = strings;
+  const { total, budget, spent } = budgetPageStrings;
 
   if (error) return <p>{error.message}</p>;
 
@@ -67,19 +69,31 @@ function Budget() {
   );
 
   return (
-    <PageWrapper>
-      <Grid>
-        <section>
-          <ul>{menuContent}</ul>
-        </section>
-        <section>
-          <Transactions
-            transactions={transactions}
-            activeParentCategoryId={activeParentCategoryId}
+    <>
+      <PageWrapper>
+        <Grid>
+          <section>
+            <ul>{menuContent}</ul>
+          </section>
+          <section>
+            <Transactions
+              transactions={transactions}
+              activeParentCategoryId={activeParentCategoryId}
+            />
+          </section>
+        </Grid>
+      </PageWrapper>
+      <Routes>
+        {budgetRoutes.map((route) => (
+          <Route
+            key={route.id}
+            path={route.path}
+            exact={route.exact}
+            element={route.element({ content: "Info z modala" })}
           />
-        </section>
-      </Grid>
-    </PageWrapper>
+        ))}
+      </Routes>
+    </>
   );
 }
 
