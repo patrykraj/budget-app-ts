@@ -11,6 +11,7 @@ export const budgetPageStrings = {
 
 export const formStrings = {
   dateFormat: "dd/MM/yyyy",
+  defaultCategoryId: 7,
 };
 
 export const userId = 1;
@@ -18,4 +19,11 @@ export const userId = 1;
 export const languages = {
   pl: "PL",
   en: "EN",
+};
+
+export const validationTypes = {
+  description: "description",
+  amount: "amount",
+  select: "select",
+  isFormValid: "isFormValid",
 };
