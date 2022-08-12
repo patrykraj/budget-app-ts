@@ -24,7 +24,7 @@ function Button({ type, children, active, setActiveLink, ...props }) {
   return props.to ? (
     <Link
       {...props}
-      onClick={() => setActiveLink(props.to.slice(1))}
+      onClick={setActiveLink ? () => setActiveLink(props.to.slice(1)) : null}
       style={{ textDecoration: "none" }}
     >
       {content}

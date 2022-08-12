@@ -54,7 +54,7 @@ export const ParentCategoryElement = styled.li`
   }
 `;
 
-export const InfoElement = styled.li`
+export const InfoElementWrapper = styled.li`
   display: flex;
   background: ${({ theme }) => theme.colors.gray.light};
 

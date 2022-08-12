@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { List, ParentCategoryElement, ChildCategories } from "./index";
-import { formatCurrency } from "../../../utils";
+import { formatCurrency } from "../../../../utils";
 
 const ParentCategory = ({
   id,
