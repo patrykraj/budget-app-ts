@@ -1,3 +1,5 @@
 import formatCurrency from "./formatCurrency";
+import getMaxDate from "./getMaxDate";
+import calcSpentAmount from "./calcSpentAmount";
 
-export default formatCurrency;
+export { formatCurrency, getMaxDate, calcSpentAmount };

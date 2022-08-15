@@ -5,7 +5,8 @@ import {
   NavigationWrapper,
 } from "./Wrappers";
 
+export { Wrapper, PageWrapper, FlexWrapper, NavigationWrapper };
 export { default as Button } from "./Button";
 export { default as Loader } from "./Loader";
 export { default as Navigation } from "./Navigation";
-export { Wrapper, PageWrapper, FlexWrapper, NavigationWrapper };
+export { default as Modal } from "./Modal";

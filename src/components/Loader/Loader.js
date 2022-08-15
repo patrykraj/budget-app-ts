@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-const rotate = keyframes`
+export const rotate = keyframes`
   from {
     transform: rotate(0deg);
   }

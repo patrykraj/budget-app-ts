@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import formatCurrency from "../../../utils/formatCurrency";
+import formatCurrency from "../../../../utils/formatCurrency";
 
-const Transactions = ({ transactions, activeParentCategoryId }) => {
+const TransactionsList = ({ transactions, activeParentCategoryId }) => {
   if (!transactions.length || !activeParentCategoryId.length) return null;
 
   return (
@@ -19,13 +19,13 @@ const Transactions = ({ transactions, activeParentCategoryId }) => {
   );
 };
 
-export default React.memo(Transactions);
+export default React.memo(TransactionsList);
 
-Transactions.defaultProps = {
+TransactionsList.defaultProps = {
   transactions: [],
 };
 
-Transactions.propTypes = {
+TransactionsList.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.shape({})),
   activeParentCategoryId: PropTypes.arrayOf(PropTypes.number).isRequired,
 };

@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { List, ParentCategoryElement, ChildCategories } from "./index";
-import formatCurrency from "../../../utils";
+import { formatCurrency } from "../../../../utils";
 
 const ParentCategory = ({
   id,
@@ -17,13 +17,18 @@ const ParentCategory = ({
   const { budgetedCategories } = useSelector((store) => store.parentCategories);
   const { spentAmount } = useSelector((store) => store.transactions);
   const exceed = useMemo(() => {
-    return spentAmount.parentCategories &&
+    if (summary)
+      return !!(
+        spentAmount.parentCategories &&
+        spentAmount.parentCategories.totalSpent > budgetedCategories.total
+      );
+    return !!(
+      spentAmount.parentCategories &&
       spentAmount.parentCategories[id] > budgetedCategories[id]
-      ? "true"
-      : null;
+    );
   }, [spentAmount, budgetedCategories]);
 
-  function handleTransactions() {
+  const handleTransactions = useCallback(() => {
     if (active) {
       return onclick([]);
     }
@@ -31,7 +36,7 @@ const ParentCategory = ({
       return onclick(items.map((i) => i.parentCategoryId));
     }
     return onclick([id]);
-  }
+  }, [id, active, summary]);
 
   return (
     <ParentCategoryElement key={id} exceed={exceed}>
