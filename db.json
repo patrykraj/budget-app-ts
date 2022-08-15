@@ -166,45 +166,6 @@
       "categoryId": 7,
       "date": "2021-12-17T15:41:01.768Z",
       "budgetId": 2
-    },
-    {
-      "id": 735797,
-      "description": "dd",
-      "amount": 2.01,
-      "categoryId": 4,
-      "date": "2022-08-15T20:07:57.544Z",
-      "category": {
-        "id": 4,
-        "name": "Alkohol",
-        "parentCategoryId": 1
-      },
-      "budgetId": "1"
-    },
-    {
-      "id": 378158,
-      "description": "dd",
-      "amount": 1.01,
-      "categoryId": 4,
-      "date": "2022-08-15T20:09:57.180Z",
-      "category": {
-        "id": 4,
-        "name": "Alkohol",
-        "parentCategoryId": 1
-      },
-      "budgetId": "1"
-    },
-    {
-      "id": 66440,
-      "description": "dd",
-      "amount": 1,
-      "categoryId": 4,
-      "date": "2022-08-15T20:10:32.340Z",
-      "category": {
-        "id": 4,
-        "name": "Alkohol",
-        "parentCategoryId": 1
-      },
-      "budgetId": "1"
     }
   ]
 }
