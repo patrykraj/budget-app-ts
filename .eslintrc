@@ -35,6 +35,13 @@
             "unnamedComponents": "function-expression"
           }],
         "no-plusplus": 0,
+        "import/no-cycle": [
+            "error",
+            {
+              "maxDepth": 10,
+              "ignoreExternal": true
+            }
+          ],
         "jsx-a11y/label-has-associated-control": 0
     }
 }

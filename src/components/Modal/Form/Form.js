@@ -1,13 +1,19 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import Loader from "../../Loader";
+import { Loader, Button } from "../../index";
 import { formValidator, InputErrorHandler } from "./components";
 import formInputs from "../../../static/formInputs";
-import { formStrings, validationTypes } from "../../../static/constants";
+import {
+  formStrings,
+  validationTypes,
+  buttonTypes,
+} from "../../../static/constants";
 import { getMaxDate } from "../../../utils";
+import { addTransaction } from "../../../store/features/transactionsSlice";
 
 function Form() {
   const [transactionsDate, setTransactionsDate] = useState(new Date());
@@ -27,12 +33,12 @@ function Form() {
       valid: false,
     },
   });
-
-  const { dateFormat, defaultCategoryId } = formStrings;
-  const { select, isFormValid } = validationTypes;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { allCategories, isCategoriesLoading } = useSelector(
     (store) => store.parentCategories
   );
+  const { isTransactionsLoading } = useSelector((store) => store.transactions);
 
   const selectCategories = useMemo(
     () =>
@@ -76,13 +82,34 @@ function Form() {
     [selectCategories]
   );
 
-  const handleSubmitForm = (e) => {
+  const { dateFormat, defaultCategoryId, submitButton } = formStrings;
+  const { select, isFormValid } = validationTypes;
+  const { regular } = buttonTypes;
+
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
     const isValid = formValidator({
       type: isFormValid,
       val: formValues,
     });
-    console.log(isValid);
+    if (!isValid) throw new Error("FORM INVALID!");
+
+    const data = {
+      id: Math.floor(Math.random() * 1000000),
+      description: formValues.description.value,
+      amount: Number(formValues.amount.value),
+      categoryId: Number(formValues.selectValue.value),
+      date: transactionsDate,
+      category: {
+        ...allCategories.find(
+          (category) =>
+            category.categoryId === Number(formValues.selectValue.value)
+        ).category,
+      },
+    };
+
+    await dispatch(addTransaction(data));
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -151,9 +178,13 @@ function Form() {
           onChange={(date) => setTransactionsDate(date)}
         />
       </div>
-      <button type="submit" onClick={(e) => handleSubmitForm(e)}>
-        Dodaj
-      </button>
+      <Button
+        type={regular}
+        onclick={(e) => handleSubmitForm(e)}
+        loading={isTransactionsLoading}
+      >
+        {submitButton}
+      </Button>
     </form>
   );
 }

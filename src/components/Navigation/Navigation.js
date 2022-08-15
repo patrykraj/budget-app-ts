@@ -21,7 +21,7 @@ function Navigation({ routes, RightElement }) {
               type={inline}
               to={route.to}
               key={route.to}
-              setActiveLink={setActiveLink}
+              onclick={setActiveLink}
               active={route.id === activeLink}
             >
               {route.name}

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { buttonTypes } from "../../static/constants";
 
-import { RegularButton, InlineButton } from "./Button.css";
+import { RegularButton, InlineButton, ButtonLoader } from "./Button.css";
 
-function Button({ type, children, active, setActiveLink, ...props }) {
+function Button({ type, children, active, onclick, loading, ...props }) {
   const { regular, inline } = buttonTypes;
 
   const ButtonContainer = useMemo(() => {
@@ -19,18 +19,18 @@ function Button({ type, children, active, setActiveLink, ...props }) {
     }
   }, [type]);
 
-  const content = <ButtonContainer active={active}>{children}</ButtonContainer>;
-
   return props.to ? (
     <Link
       {...props}
-      onClick={setActiveLink ? () => setActiveLink(props.to.slice(1)) : null}
+      onClick={onclick ? () => onclick(props.to.slice(1)) : null}
       style={{ textDecoration: "none" }}
     >
-      {content}
+      <ButtonContainer active={active}>{children}</ButtonContainer>
     </Link>
   ) : (
-    content
+    <ButtonContainer onClick={onclick} disabled={loading}>
+      {loading ? <ButtonLoader /> : children}
+    </ButtonContainer>
   );
 }
 
@@ -39,13 +39,15 @@ export default Button;
 Button.defaultProps = {
   to: "",
   active: null,
-  setActiveLink: () => {},
+  onclick: () => {},
+  loading: false,
 };
 
 Button.propTypes = {
   type: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   active: PropTypes.bool,
-  setActiveLink: PropTypes.func,
+  onclick: PropTypes.func,
   to: PropTypes.string,
+  loading: PropTypes.bool,
 };

@@ -17,10 +17,15 @@ const ParentCategory = ({
   const { budgetedCategories } = useSelector((store) => store.parentCategories);
   const { spentAmount } = useSelector((store) => store.transactions);
   const exceed = useMemo(() => {
-    return spentAmount.parentCategories &&
+    if (summary)
+      return !!(
+        spentAmount.parentCategories &&
+        spentAmount.parentCategories.totalSpent > budgetedCategories.total
+      );
+    return !!(
+      spentAmount.parentCategories &&
       spentAmount.parentCategories[id] > budgetedCategories[id]
-      ? "true"
-      : null;
+    );
   }, [spentAmount, budgetedCategories]);
 
   const handleTransactions = useCallback(() => {

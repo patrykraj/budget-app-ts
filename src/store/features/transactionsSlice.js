@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "../../client";
 import { userId } from "../../static/constants";
+import { calcSpentAmount } from "../../utils";
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
@@ -8,6 +9,17 @@ export const getTransactions = createAsyncThunk(
     return client
       .get(`transactions?budgetId=${userId}&_expand=category`)
       .then((res) => res.json())
+      .catch((err) => err.message);
+  }
+);
+
+export const addTransaction = createAsyncThunk(
+  "transactions/addTransaction",
+  (data) => {
+    return client
+      .post(`budgets/${userId}/transactions`, data)
+      .then((res) => res.json())
+      .then((resData) => resData)
       .catch((err) => err.message);
   }
 );
@@ -30,47 +42,29 @@ export const transactionsSlice = createSlice({
       state.isTransactionsLoading = true;
       if (state.transactionsErrorMessage) state.transactionsErrorMessage = null;
     },
+    [addTransaction.pending]: (state) => {
+      state.isTransactionsLoading = true;
+    },
     [getTransactions.fulfilled]: (state, { payload }) => {
-      const spentValues = payload.reduce(
-        (acc, transaction) => {
-          acc.parentCategories.totalSpent += transaction.amount;
-          if (
-            acc[transaction.categoryId] ||
-            acc.parentCategories[transaction.category?.parentCategoryId]
-          ) {
-            if (acc[transaction.categoryId])
-              acc[transaction.categoryId] += transaction.amount;
-            else acc[transaction.categoryId] = transaction.amount;
-            if (acc.parentCategories[transaction.category.parentCategoryId])
-              acc.parentCategories[transaction.category.parentCategoryId] +=
-                transaction.amount;
-            else
-              acc.parentCategories[transaction.category.parentCategoryId] =
-                transaction.amount;
-            return { ...acc };
-          }
-          return {
-            ...acc,
-            [transaction.categoryId]: transaction.amount,
-            parentCategories: {
-              ...acc.parentCategories,
-              [transaction.category.parentCategoryId]: transaction.amount,
-            },
-          };
-        },
-        {
-          parentCategories: {
-            totalSpent: 0,
-          },
-        }
-      );
+      const spentValues = calcSpentAmount(payload);
 
       state.spentAmount = spentValues;
       state.transactions = payload;
       state.isTransactionsLoading = false;
     },
+    [addTransaction.fulfilled]: (state, { payload }) => {
+      state.transactions.push(payload);
+
+      const spentValues = calcSpentAmount(state.transactions);
+      state.spentAmount = spentValues;
+      state.isTransactionsLoading = false;
+    },
     [getTransactions.rejected]: (state, action) => {
       state.transactionsErrorMessage = action.payload;
+      state.isTransactionsLoading = false;
+    },
+    [addTransaction.rejected]: (state, { payload }) => {
+      state.transactionsErrorMessage = payload;
       state.isTransactionsLoading = false;
     },
   },

@@ -12,6 +12,7 @@ export const budgetPageStrings = {
 export const formStrings = {
   dateFormat: "dd/MM/yyyy",
   defaultCategoryId: 7,
+  submitButton: "Utwórz",
 };
 
 export const userId = 1;
