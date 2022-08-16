@@ -88,6 +88,10 @@ export const transactionsSlice = createSlice({
       state.transactionsErrorMessage = payload;
       state.isTransactionsLoading = false;
     },
+    [deleteTransaction.rejected]: (state, { payload }) => {
+      state.isTransactionsLoading = false;
+      state.transactionsErrorMessage = payload;
+    },
   },
 });
 
