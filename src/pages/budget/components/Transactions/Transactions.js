@@ -3,16 +3,22 @@ import PropTypes from "prop-types";
 
 import TransactionsList from "./TransactionsList";
 import { Button } from "../../../../components";
-import { buttonTypes } from "../../../../static/constants";
+import {
+  buttonTypes,
+  navigationStrings,
+  transactionStrings,
+} from "../../../../static/constants";
 import { TransactionsWrapper } from "./Transactions.css";
 
 const Transactions = ({ activeParentCategoryId, transactions }) => {
   const { regular } = buttonTypes;
+  const { budgetTransactionNew } = navigationStrings;
+  const { addNewTransaction } = transactionStrings;
 
   return (
     <TransactionsWrapper>
-      <Button type={regular} to="/budget/transaction/new">
-        Add new transaction
+      <Button type={regular} to={budgetTransactionNew}>
+        {addNewTransaction}
       </Button>
       <TransactionsList
         transactions={transactions}

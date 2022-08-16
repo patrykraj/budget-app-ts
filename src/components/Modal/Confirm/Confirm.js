@@ -5,8 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Loader";
 import Button from "../../Button";
 import { deleteTransaction } from "../../../store/features/transactionsSlice";
+import {
+  confirmStrings,
+  navigationStrings,
+  buttonTypes,
+} from "../../../static/constants";
 
-const FallbackElement = () => <p>Nie znaleziono transakcji</p>;
+const FallbackElement = () => <p>{confirmStrings.transactionNotFound}</p>;
 
 const Confirm = () => {
   let { id } = useParams();
@@ -28,20 +33,22 @@ const Confirm = () => {
 
   if (!description) return <FallbackElement />;
 
+  const { confirm, cancel, deleteConfirmation } = confirmStrings;
+  const { regular } = buttonTypes;
   const handleDeleteElement = async () => {
     await dispatch(deleteTransaction(id));
-    navigate("/budget");
+    navigate(navigationStrings.budget);
   };
 
   return (
     <>
-      <p>Czy na pewno chcesz usunąć {description}?</p>
+      <p>{`${deleteConfirmation} ${description}?`}</p>
       <div>
-        <Button type="regular" onclick={handleDeleteElement}>
-          usuń
+        <Button type={regular} onclick={handleDeleteElement}>
+          {confirm}
         </Button>
-        <Button type="regular" onclick={() => navigate(-1)}>
-          anuluj
+        <Button type={regular} onclick={() => navigate(-1)}>
+          {cancel}
         </Button>
       </div>
     </>
