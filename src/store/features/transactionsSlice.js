@@ -24,6 +24,16 @@ export const addTransaction = createAsyncThunk(
   }
 );
 
+export const deleteTransaction = createAsyncThunk(
+  "transactions/deleteTransaction",
+  (id) => {
+    return client
+      .delete(`transactions/${id}`)
+      .then(() => id)
+      .catch((err) => err.message);
+  }
+);
+
 export const transactionsSlice = createSlice({
   name: "transactions",
   initialState: {
@@ -45,9 +55,11 @@ export const transactionsSlice = createSlice({
     [addTransaction.pending]: (state) => {
       state.isTransactionsLoading = true;
     },
+    [deleteTransaction.pending]: (state) => {
+      state.isTransactionsLoading = true;
+    },
     [getTransactions.fulfilled]: (state, { payload }) => {
       const spentValues = calcSpentAmount(payload);
-
       state.spentAmount = spentValues;
       state.transactions = payload;
       state.isTransactionsLoading = false;
@@ -59,6 +71,15 @@ export const transactionsSlice = createSlice({
       state.spentAmount = spentValues;
       state.isTransactionsLoading = false;
     },
+    [deleteTransaction.fulfilled]: (state, { payload }) => {
+      const newTransactions = state.transactions.filter(
+        (transaction) => transaction.id !== payload
+      );
+      state.transactions = newTransactions;
+      const spentValues = calcSpentAmount(state.transactions);
+      state.spentAmount = spentValues;
+      state.isTransactionsLoading = false;
+    },
     [getTransactions.rejected]: (state, action) => {
       state.transactionsErrorMessage = action.payload;
       state.isTransactionsLoading = false;
@@ -66,6 +87,10 @@ export const transactionsSlice = createSlice({
     [addTransaction.rejected]: (state, { payload }) => {
       state.transactionsErrorMessage = payload;
       state.isTransactionsLoading = false;
+    },
+    [deleteTransaction.rejected]: (state, { payload }) => {
+      state.isTransactionsLoading = false;
+      state.transactionsErrorMessage = payload;
     },
   },
 });

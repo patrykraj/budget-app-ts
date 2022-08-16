@@ -3,12 +3,12 @@ import Homepage from "../pages/home/Homepage";
 import Budget from "../pages/budget/Budget";
 
 const routes = [
-  { to: "/", id: "", name: "Home", element: () => <Homepage />, exact: true },
+  { to: "/", id: "", name: "Główna", element: () => <Homepage />, exact: true },
   {
     to: "/budget",
     path: "/budget/*",
     id: "budget",
-    name: "Budget",
+    name: "Budżet",
     element: () => <Budget />,
   },
 ];

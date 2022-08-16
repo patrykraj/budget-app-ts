@@ -25,7 +25,7 @@ export const RegularButton = styled(RootButton)`
       height: 30px;
     `}
 
-  && {
+  & + & {
     margin-left: ${({ theme }) => theme.spacing.xxs}px;
   }
 

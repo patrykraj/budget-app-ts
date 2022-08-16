@@ -4,19 +4,20 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { ModalWrapper, ModalContainer } from "./Modal.css";
-import Form from "./Form";
+import { navigationStrings } from "../../static/constants";
 
 function Modal({ children }) {
+  const { budget } = navigationStrings;
   const navigate = useNavigate();
-  const navigateBack = useCallback(() => navigate("/budget"), [children]);
+  const navigateBack = useCallback(() => navigate(budget), [children]);
 
   return createPortal(
     <ModalWrapper onClick={navigateBack}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <button type="submit" onClick={navigateBack}>
+        <button type="button" onClick={navigateBack}>
           &times;
         </button>
-        <Form />
+        {children}
       </ModalContainer>
     </ModalWrapper>,
     document.querySelector("#modal")

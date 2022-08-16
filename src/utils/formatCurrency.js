@@ -1,5 +1,6 @@
 const formatCurrency = (val) => {
-  const number = Number(val);
+  let number = Number(val);
+  if (Number.isNaN(number)) number = 0;
 
   return new Intl.NumberFormat("pl", {
     style: "currency",

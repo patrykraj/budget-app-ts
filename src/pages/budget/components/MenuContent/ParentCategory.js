@@ -2,8 +2,9 @@ import React, { useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { List, ParentCategoryElement, ChildCategories } from "./index";
+import ChildCategories from "./ChildCategories";
 import { formatCurrency } from "../../../../utils";
+import { List, ParentCategoryElement } from "./ListElements.css";
 
 const ParentCategory = ({
   id,

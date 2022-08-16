@@ -28,3 +28,19 @@ export const validationTypes = {
   select: "select",
   isFormValid: "isFormValid",
 };
+
+export const transactionStrings = {
+  addNewTransaction: "Utwórz nową transakcję",
+};
+
+export const navigationStrings = {
+  budget: "/budget",
+  budgetTransactionNew: "/budget/transaction/new",
+};
+
+export const confirmStrings = {
+  deleteConfirmation: "Czy na pewno chcesz usunąć",
+  confirm: "Tak",
+  cancel: "Anuluj",
+  transactionNotFound: "Nie znaleziono transakcji",
+};
