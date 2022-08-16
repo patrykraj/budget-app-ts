@@ -55,20 +55,6 @@
   ],
   "budgetCategories": [
     {
-      "id": 1,
-      "budget": 120,
-      "categoryId": 1,
-      "budgetId": 1,
-      "parentCategoryId": 2
-    },
-    {
-      "id": 1,
-      "budget": 120000,
-      "categoryId": 1,
-      "budgetId": 2,
-      "parentCategoryId": 2
-    },
-    {
       "id": 2,
       "budget": 40,
       "categoryId": 2,
@@ -124,7 +110,7 @@
       "description": "Dostawca internetu",
       "amount": 120.47,
       "categoryId": 1,
-      "date": "2019-12-15T20:39:41.768Z",
+      "date": "2021-12-15T20:39:41.768Z",
       "budgetId": 1
     },
     {
@@ -132,7 +118,7 @@
       "description": "Dostawca sieci komórkowej",
       "amount": 39.99,
       "categoryId": 2,
-      "date": "2019-12-10T13:33:21.768Z",
+      "date": "2021-12-10T13:33:21.768Z",
       "budgetId": 1
     },
     {
@@ -140,15 +126,7 @@
       "description": "Cotygodniowe zakupy",
       "amount": 23.88,
       "categoryId": 6,
-      "date": "2019-12-17T15:41:01.768Z",
-      "budgetId": 1
-    },
-    {
-      "id": 5,
-      "description": "Cotygodniowe zakupy",
-      "amount": 1,
-      "categoryId": 6,
-      "date": "2019-12-17T15:41:01.768Z",
+      "date": "2021-12-17T15:41:01.768Z",
       "budgetId": 1
     },
     {
@@ -161,11 +139,11 @@
     },
     {
       "id": 5,
-      "description": "Zakupki",
-      "amount": 123.88,
-      "categoryId": 7,
+      "description": "Cotygodniowe zakupy",
+      "amount": 92.38,
+      "categoryId": 6,
       "date": "2021-12-17T15:41:01.768Z",
-      "budgetId": 2
+      "budgetId": 1
     }
   ]
 }

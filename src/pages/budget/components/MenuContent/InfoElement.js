@@ -1,6 +1,6 @@
 import React from "react";
 
-import { InfoElementWrapper } from "./index";
+import { InfoElementWrapper } from "./ListElements.css";
 import { budgetPageStrings } from "../../../../static/constants";
 
 const InfoElement = () => {

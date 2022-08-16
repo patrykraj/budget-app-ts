@@ -10,6 +10,10 @@ const Grid = styled.div`
   section:nth-child(2) {
     flex: 8;
   }
+
+  section + section {
+    margin: 0 ${({ theme }) => theme.spacing.sm}px;
+  }
 `;
 
 export default Grid;

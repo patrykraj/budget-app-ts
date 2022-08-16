@@ -1,4 +1,4 @@
-import { Transactions } from "./Transactions";
+import Transactions from "./Transactions";
 import { MenuContent } from "./MenuContent";
 import BudgetRoutes from "./BudgetRoutes";
 

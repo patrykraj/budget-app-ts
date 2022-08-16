@@ -10,6 +10,14 @@ const client = {
       },
       body: JSON.stringify(data),
     }),
+  delete: (query, id) =>
+    fetch(`${url}/${query}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id),
+    }),
 };
 
 export default client;

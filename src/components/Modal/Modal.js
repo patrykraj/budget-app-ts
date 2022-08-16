@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { ModalWrapper, ModalContainer } from "./Modal.css";
-import Form from "./Form";
 
 function Modal({ children }) {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ function Modal({ children }) {
         <button type="submit" onClick={navigateBack}>
           &times;
         </button>
-        <Form />
+        {children}
       </ModalContainer>
     </ModalWrapper>,
     document.querySelector("#modal")

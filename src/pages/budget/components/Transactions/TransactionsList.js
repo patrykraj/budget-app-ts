@@ -1,31 +1,46 @@
 import React from "react";
 import PropTypes from "prop-types";
-import formatCurrency from "../../../../utils/formatCurrency";
+
+import TransactionElement from "./TransactionElement";
+import { sortTransactions } from "../../../../utils";
 
 const TransactionsList = ({ transactions, activeParentCategoryId }) => {
   if (!transactions.length || !activeParentCategoryId.length) return null;
 
+  const sortedTransactions = sortTransactions([...transactions], "date");
+
   return (
-    <ul>
-      {transactions.map(
-        (item) =>
-          activeParentCategoryId.includes(item.category.parentCategoryId) && (
-            <li key={item.id}>
-              {`${item.description}, Cena: ${formatCurrency(item.amount)}`}
-            </li>
-          )
-      )}
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Opis</th>
+          <th>Kategoria</th>
+          <th>Kwota</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedTransactions.map(
+          (item) =>
+            activeParentCategoryId.includes(item.category.parentCategoryId) && (
+              <TransactionElement
+                key={item.id}
+                id={item.id}
+                description={item.description}
+                amount={item.amount}
+                date={item.date.slice(0, 10)}
+                category={item.category.name}
+              />
+            )
+        )}
+      </tbody>
+    </table>
   );
 };
 
 export default React.memo(TransactionsList);
 
-TransactionsList.defaultProps = {
-  transactions: [],
-};
-
 TransactionsList.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.shape({})),
+  transactions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   activeParentCategoryId: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
