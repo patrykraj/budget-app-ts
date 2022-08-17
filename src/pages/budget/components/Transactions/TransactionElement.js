@@ -4,18 +4,19 @@ import PropTypes from "prop-types";
 import { Button } from "../../../../components";
 import { TransactionListElement } from "./Transactions.css";
 import formatCurrency from "../../../../utils/formatCurrency";
+import { buttonTypes } from "../../../../static/constants";
 
 const TransactionElement = ({ id, description, amount, date, category }) => {
+  const { cross } = buttonTypes;
+
   return (
-    <TransactionListElement onClick={() => console.log(amount)}>
+    <TransactionListElement onClick={() => {}}>
       <td>{description}</td>
       <td>{category}</td>
       <td>{formatCurrency(amount)}</td>
       <td>{date}</td>
       <td>
-        <Button type="regular" to={`/budget/transaction/delete/${id}`}>
-          &times;
-        </Button>
+        <Button type={cross} to={`/budget/transaction/delete/${id}`} />
       </td>
     </TransactionListElement>
   );

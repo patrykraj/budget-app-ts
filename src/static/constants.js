@@ -1,6 +1,7 @@
 export const buttonTypes = {
   inline: "inline",
   regular: "regular",
+  cross: "cross",
 };
 
 export const budgetPageStrings = {
@@ -31,6 +32,24 @@ export const validationTypes = {
 
 export const transactionStrings = {
   addNewTransaction: "Utwórz nową transakcję",
+  transactionsHeaders: {
+    descriptionHeader: {
+      header: "Opis",
+      value: "description",
+    },
+    categoryHeader: {
+      header: "Kategoria",
+      value: "category",
+    },
+    amountHeader: {
+      header: "Kwota",
+      value: "amount",
+    },
+    dateHeader: {
+      header: "Data",
+      value: "date",
+    },
+  },
 };
 
 export const navigationStrings = {
