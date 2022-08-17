@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import TransactionsList from "./TransactionsList";
+import TransactionsTable from "./TransactionsTable";
 import { Button } from "../../../../components";
 import {
   buttonTypes,
@@ -20,7 +20,7 @@ const Transactions = ({ activeParentCategoryId, transactions }) => {
       <Button type={regular} to={budgetTransactionNew}>
         {addNewTransaction}
       </Button>
-      <TransactionsList
+      <TransactionsTable
         transactions={transactions}
         activeParentCategoryId={activeParentCategoryId}
       />

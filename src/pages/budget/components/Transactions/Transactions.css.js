@@ -9,6 +9,15 @@ export const TransactionsWrapper = styled.div`
   }
 `;
 
+export const TransactionsHeader = styled.th`
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+`;
+
 export const TransactionListElement = styled.tr`
   padding: ${({ theme }) => theme.spacing.xxs}px;
   margin: ${({ theme }) => theme.spacing.xxs}px 0;

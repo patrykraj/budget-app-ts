@@ -59,6 +59,13 @@ export const InlineButton = styled(RootButton)`
   }
 `;
 
+export const CrossButton = styled.button`
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+  color: ${({ theme }) => theme.colors.red.dark};
+`;
+
 const rotate = keyframes`
   0% {
     -webkit-transform: rotate(0deg);
