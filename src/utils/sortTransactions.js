@@ -10,8 +10,8 @@ function sortTransactions(arr, { value, asc }) {
     arr = arr.sort((a, b) => {
       const aTime = new Date(a.date).getTime();
       const bTime = new Date(b.date).getTime();
-      if (aTime < bTime) return 1;
-      if (aTime > bTime) return -1;
+      if (aTime < bTime) return -1;
+      if (aTime > bTime) return 1;
       return 0;
     });
   } else if (value === amountHeader.value) {

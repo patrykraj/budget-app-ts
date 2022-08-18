@@ -1,5 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import PropTypes from "prop-types";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 
@@ -12,25 +13,47 @@ import {
   validationTypes,
   buttonTypes,
 } from "../../../static/constants";
-import { getMaxDate } from "../../../utils";
-import { addTransaction } from "../../../store/features/transactionsSlice";
+import { getDate, getMaxDate } from "../../../utils";
+import {
+  addTransaction,
+  updateTransaction,
+} from "../../../store/features/transactionsSlice";
 
-function Form() {
-  const [transactionsDate, setTransactionsDate] = useState(new Date());
+function Form({ transactionUpdate }) {
+  let selectedTransaction = null;
+  let { id } = useParams();
+  const { transactions, isTransactionsLoading } = useSelector(
+    (store) => store.transactions
+  );
+  if (transactionUpdate) {
+    id = parseInt(id, 10);
+    selectedTransaction = transactions.find(
+      (transaction) => transaction.id === id
+    );
+  }
+
+  const { dateFormat, defaultCategoryId, submitButton, updateButton } =
+    formStrings;
+  const { select, isFormValid } = validationTypes;
+  const { regular } = buttonTypes;
+
+  const [transactionsDate, setTransactionsDate] = useState(
+    getDate(selectedTransaction, transactionUpdate)
+  );
   const [formValues, setFormValues] = useState({
     description: {
-      value: "",
+      value: selectedTransaction?.description || "",
       touched: false,
-      valid: false,
+      valid: !!selectedTransaction || false,
     },
     amount: {
-      value: "",
+      value: selectedTransaction?.amount || "",
       touched: false,
-      valid: false,
+      valid: !!selectedTransaction || false,
     },
     selectValue: {
-      value: null,
-      valid: false,
+      value: selectedTransaction?.category.id || defaultCategoryId,
+      valid: true,
     },
   });
   const dispatch = useDispatch();
@@ -38,7 +61,6 @@ function Form() {
   const { allCategories, isCategoriesLoading } = useSelector(
     (store) => store.parentCategories
   );
-  const { isTransactionsLoading } = useSelector((store) => store.transactions);
 
   const selectCategories = useMemo(
     () =>
@@ -82,11 +104,7 @@ function Form() {
     [selectCategories]
   );
 
-  const { dateFormat, defaultCategoryId, submitButton } = formStrings;
-  const { select, isFormValid } = validationTypes;
-  const { regular } = buttonTypes;
-
-  const handleSubmitForm = async (e) => {
+  const handleSubmitForm = async (e, update) => {
     e.preventDefault();
     const isValid = formValidator({
       type: isFormValid,
@@ -94,12 +112,19 @@ function Form() {
     });
     if (!isValid) throw new Error("FORM INVALID!");
 
+    const transformDate = new Date(
+      transactionsDate.setMinutes(
+        transactionsDate.getMinutes() +
+          Math.abs(transactionsDate.getTimezoneOffset())
+      )
+    );
+
     const data = {
-      id: Math.floor(Math.random() * 1000000),
+      id: (update && id) || Math.floor(Math.random() * 1000000),
       description: formValues.description.value,
       amount: Number(formValues.amount.value),
       categoryId: Number(formValues.selectValue.value),
-      date: transactionsDate,
+      date: transformDate,
       category: {
         ...allCategories.find(
           (category) =>
@@ -108,20 +133,13 @@ function Form() {
       },
     };
 
-    await dispatch(addTransaction(data));
+    if (update) {
+      await dispatch(updateTransaction(data));
+    } else {
+      await dispatch(addTransaction(data));
+    }
     navigate(-1);
   };
-
-  useEffect(() => {
-    if (!isCategoriesLoading)
-      setFormValues({
-        ...formValues,
-        selectValue: {
-          value: selectCategories[1].categories[0].id || defaultCategoryId,
-          valid: true,
-        },
-      });
-  }, [selectCategories]);
 
   if (isCategoriesLoading) return <Loader />;
 
@@ -154,6 +172,7 @@ function Form() {
         <select
           name="category"
           id="categories"
+          defaultValue={selectedTransaction?.category.id || defaultCategoryId}
           onChange={(e) =>
             setFormValues({
               ...formValues,
@@ -180,13 +199,21 @@ function Form() {
       </div>
       <Button
         type={regular}
-        onclick={(e) => handleSubmitForm(e)}
+        onclick={(e) => handleSubmitForm(e, transactionUpdate)}
         loading={isTransactionsLoading}
       >
-        {submitButton}
+        {transactionUpdate ? updateButton : submitButton}
       </Button>
     </form>
   );
 }
 
 export default Form;
+
+Form.defaultProps = {
+  transactionUpdate: false,
+};
+
+Form.propTypes = {
+  transactionUpdate: PropTypes.bool,
+};

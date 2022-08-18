@@ -14,6 +14,7 @@ export const formStrings = {
   dateFormat: "dd/MM/yyyy",
   defaultCategoryId: 7,
   submitButton: "Utwórz",
+  updateButton: "Zaktualizuj",
 };
 
 export const userId = 1;

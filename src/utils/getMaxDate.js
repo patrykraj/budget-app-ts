@@ -1,5 +1,8 @@
-function getMaxDate() {
-  return new Date(new Date() + 1);
+export function getDate(selectedTransaction, update) {
+  if (selectedTransaction && update) return new Date(selectedTransaction.date);
+  return new Date();
 }
 
-export default getMaxDate;
+export function getMaxDate() {
+  return new Date(new Date() + 1);
+}

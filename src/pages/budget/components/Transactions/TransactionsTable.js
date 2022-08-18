@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -23,6 +24,7 @@ const TransactionsTable = ({ transactions, activeParentCategoryId }) => {
           {Object.values(transactionsHeaders).map(({ header, value }) => (
             <TransactionsHeader
               key={header}
+              className={sortOrder.asc.hasOwnProperty(value) ? "active" : ""}
               onClick={() =>
                 setSortOrder({
                   value,

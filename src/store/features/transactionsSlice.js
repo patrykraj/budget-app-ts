@@ -34,6 +34,19 @@ export const deleteTransaction = createAsyncThunk(
   }
 );
 
+export const updateTransaction = createAsyncThunk(
+  "transactions/updateTransaction",
+  (transaction) => {
+    const { id } = transaction;
+
+    return client
+      .patch(`transactions/${id}`, transaction)
+      .then((res) => res.json())
+      .then((resData) => resData)
+      .catch((err) => err.message);
+  }
+);
+
 export const transactionsSlice = createSlice({
   name: "transactions",
   initialState: {
@@ -58,6 +71,9 @@ export const transactionsSlice = createSlice({
     [deleteTransaction.pending]: (state) => {
       state.isTransactionsLoading = true;
     },
+    [updateTransaction.pending]: (state) => {
+      state.isTransactionsLoading = true;
+    },
     [getTransactions.fulfilled]: (state, { payload }) => {
       const spentValues = calcSpentAmount(payload);
       state.spentAmount = spentValues;
@@ -80,6 +96,15 @@ export const transactionsSlice = createSlice({
       state.spentAmount = spentValues;
       state.isTransactionsLoading = false;
     },
+    [updateTransaction.fulfilled]: (state, { payload }) => {
+      const { id } = payload;
+      const newTransactions = state.transactions.filter(
+        (transaction) => transaction.id !== id
+      );
+      newTransactions.push(payload);
+      state.transactions = newTransactions;
+      state.isTransactionsLoading = false;
+    },
     [getTransactions.rejected]: (state, action) => {
       state.transactionsErrorMessage = action.payload;
       state.isTransactionsLoading = false;
@@ -89,8 +114,12 @@ export const transactionsSlice = createSlice({
       state.isTransactionsLoading = false;
     },
     [deleteTransaction.rejected]: (state, { payload }) => {
-      state.isTransactionsLoading = false;
       state.transactionsErrorMessage = payload;
+      state.isTransactionsLoading = false;
+    },
+    [updateTransaction.rejected]: (state, { payload }) => {
+      state.transactionsErrorMessage = payload;
+      state.isTransactionsLoading = false;
     },
   },
 });
