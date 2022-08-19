@@ -30,7 +30,14 @@ function Button({ type, children, active, onclick, loading, ...props }) {
     return (
       <Link
         {...props}
-        onClick={onclick ? () => onclick(props.to.slice(1)) : null}
+        onClick={
+          onclick
+            ? (e) => {
+                e.stopPropagation();
+                onclick(props.to.slice(1));
+              }
+            : null
+        }
         style={{ textDecoration: "none" }}
       >
         {type === cross ? (

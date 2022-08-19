@@ -29,7 +29,11 @@ const budgetRoutes = [
     id: "transaction/:id",
     path: "/transaction/:id",
     exact: true,
-    element: ({ content }) => <Modal>{content}</Modal>,
+    element: () => (
+      <Modal>
+        <Form transactionUpdate />
+      </Modal>
+    ),
   },
 ];
 

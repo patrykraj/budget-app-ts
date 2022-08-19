@@ -10,7 +10,7 @@ const BudgetRoutes = () => (
         key={route.id}
         path={route.path}
         exact={route.exact}
-        element={route.element({ content: "Info z modala" })}
+        element={route.element()}
       />
     ))}
   </Routes>

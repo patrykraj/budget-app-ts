@@ -16,6 +16,11 @@ export const TransactionsHeader = styled.th`
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-weight: 300;
+
+  &.active {
+    font-weight: bold;
+  }
 `;
 
 export const TransactionListElement = styled.tr`

@@ -1,6 +1,7 @@
 import { validationTypes } from "../../../../static/constants";
 
-const descriptionValidator = (val) => /^[a-zA-Z0-9_ ]{1,40}$/.test(val);
+const descriptionValidator = (val) =>
+  /^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9_ ]{1,40}$/.test(val);
 const amountValidator = (val) =>
   !Number.isNaN(Number(val)) && val > 0 && val < 100000000;
 const selectValidator = (val) => !!parseInt(val, 10);

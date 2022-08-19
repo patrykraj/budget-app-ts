@@ -44,6 +44,11 @@ export const ParentCategoryElement = styled.li`
 
       &.data-field {
         text-align: right;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
         &.spent {
           color: ${({ theme, exceed }) =>

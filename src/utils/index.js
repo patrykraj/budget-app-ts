@@ -1,6 +1,12 @@
 import formatCurrency from "./formatCurrency";
-import getMaxDate from "./getMaxDate";
+import { getDate, getMaxDate } from "./getMaxDate";
 import calcSpentAmount from "./calcSpentAmount";
 import sortTransactions from "./sortTransactions";
 
-export { formatCurrency, getMaxDate, calcSpentAmount, sortTransactions };
+export {
+  formatCurrency,
+  getDate,
+  getMaxDate,
+  calcSpentAmount,
+  sortTransactions,
+};

@@ -4,13 +4,18 @@ import { userId } from "../../static/constants";
 
 export const getAllCategories = createAsyncThunk(
   "allCategories/getAllCategories",
-  () => {
-    return client
-      .get(
-        `budgetCategories?_expand=category&_expand=parentCategory&budgetId=${userId}`
-      )
-      .then((res) => res.json())
-      .catch((err) => err.message);
+  async () => {
+    try {
+      const [categories, budget] = await Promise.all([
+        client
+          .get("categories?_expand=parentCategory")
+          .then((res) => res.json()),
+        client.get(`budgets/${userId}`).then((res) => res.json()),
+      ]);
+      return { categories, budget };
+    } catch (err) {
+      return err.message;
+    }
   }
 );
 
@@ -19,13 +24,13 @@ export const allCategoriesSlice = createSlice({
   initialState: {
     allCategories: [],
     parentCategories: [],
-    budgetedCategories: {},
+    budgetedParentCategories: {},
     isCategoriesLoading: true,
     categoriesErrorMessage: null,
   },
   reducers: {
     setBudgetedCategories: (state, { payload }) => {
-      state.budgetedCategories = payload;
+      state.budgetedParentCategories = payload;
     },
   },
   extraReducers: {
@@ -34,30 +39,40 @@ export const allCategoriesSlice = createSlice({
       if (state.categoriesErrorMessage) state.categoriesErrorMessage = null;
     },
     [getAllCategories.fulfilled]: (state, { payload }) => {
-      const parentCategories = payload.reduce((acc, { parentCategory }) => {
+      const { categories, budget } = payload;
+      const parentCategories = categories.reduce((acc, { parentCategory }) => {
         return [...acc, parentCategory];
       }, []);
       const uniqueParentCategories = [
         ...new Map(parentCategories.map((item) => [item.id, item])).values(),
       ];
 
+      const categoriesWithBudget = categories.map((category) => ({
+        ...category,
+        budget: budget.categories.find(
+          (budgetCategory) => budgetCategory.categoryId === category.id
+        ).budget,
+      }));
+
       const budgetedCategoriesTemp = { total: 0 };
-      for (let i = 0; i < payload.length; i++) {
+      for (let i = 0; i < budget.categories.length; i++) {
         if (
           // eslint-disable-next-line no-prototype-builtins
-          budgetedCategoriesTemp.hasOwnProperty(payload[i].parentCategoryId)
+          budgetedCategoriesTemp.hasOwnProperty(
+            budget.categories[i].parentCategoryId
+          )
         ) {
-          budgetedCategoriesTemp[payload[i].parentCategoryId] +=
-            payload[i].budget;
+          budgetedCategoriesTemp[budget.categories[i].parentCategoryId] +=
+            budget.categories[i].budget;
         } else {
-          budgetedCategoriesTemp[payload[i].parentCategoryId] =
-            payload[i].budget;
+          budgetedCategoriesTemp[budget.categories[i].parentCategoryId] =
+            budget.categories[i].budget;
         }
-        budgetedCategoriesTemp.total += payload[i].budget;
+        budgetedCategoriesTemp.total += budget.categories[i].budget;
       }
 
-      state.allCategories = payload;
-      state.budgetedCategories = { ...budgetedCategoriesTemp };
+      state.allCategories = categoriesWithBudget;
+      state.budgetedParentCategories = { ...budgetedCategoriesTemp };
       state.parentCategories = uniqueParentCategories;
       state.isCategoriesLoading = false;
     },

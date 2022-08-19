@@ -4,14 +4,14 @@ import formatCurrency from "../../../../utils/formatCurrency";
 
 const ChildCategories = ({ items, id, spentAmount }) => {
   return items.map(
-    ({ budget, category }) =>
+    (category) =>
       id === category.parentCategoryId && (
         <li key={category.id}>
           <span>{category.name}</span>
-          <span className="data-field">{formatCurrency(budget)}</span>
+          <span className="data-field">{formatCurrency(category.budget)}</span>
           <span
             className={`data-field ${
-              spentAmount[category.id] > budget ? "exceed" : ""
+              spentAmount[category.id] > category.budget ? "exceed" : ""
             }`}
           >
             {formatCurrency(spentAmount[category.id] || 0)}

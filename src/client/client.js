@@ -10,13 +10,17 @@ const client = {
       },
       body: JSON.stringify(data),
     }),
-  delete: (query, id) =>
+  delete: (query) =>
     fetch(`${url}/${query}`, {
       method: "DELETE",
+    }),
+  patch: (query, data) =>
+    fetch(`${url}/${query}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(id),
+      body: JSON.stringify(data),
     }),
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -7,14 +8,16 @@ import { sortTransactions } from "../../../../utils";
 import { transactionStrings } from "../../../../static/constants";
 
 const TransactionsTable = ({ transactions, activeParentCategoryId }) => {
+  const { transactionsHeaders } = transactionStrings;
   const [sortOrder, setSortOrder] = useState({
-    value: "date",
-    asc: {},
+    value: transactionsHeaders.dateHeader.value,
+    asc: {
+      date: false,
+    },
   });
   if (!transactions.length || !activeParentCategoryId.length) return null;
 
   const sortedTransactions = sortTransactions([...transactions], sortOrder);
-  const { transactionsHeaders } = transactionStrings;
 
   return (
     <table>
@@ -23,6 +26,7 @@ const TransactionsTable = ({ transactions, activeParentCategoryId }) => {
           {Object.values(transactionsHeaders).map(({ header, value }) => (
             <TransactionsHeader
               key={header}
+              className={sortOrder.asc.hasOwnProperty(value) ? "active" : ""}
               onClick={() =>
                 setSortOrder({
                   value,
