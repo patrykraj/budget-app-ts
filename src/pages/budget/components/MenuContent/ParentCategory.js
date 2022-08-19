@@ -15,19 +15,21 @@ const ParentCategory = ({
   noExtend,
   summary,
 }) => {
-  const { budgetedCategories } = useSelector((store) => store.parentCategories);
+  const { budgetedParentCategories } = useSelector(
+    (store) => store.parentCategories
+  );
   const { spentAmount } = useSelector((store) => store.transactions);
   const exceed = useMemo(() => {
     if (summary)
       return !!(
         spentAmount.parentCategories &&
-        spentAmount.parentCategories.totalSpent > budgetedCategories.total
+        spentAmount.parentCategories.totalSpent > budgetedParentCategories.total
       );
     return !!(
       spentAmount.parentCategories &&
-      spentAmount.parentCategories[id] > budgetedCategories[id]
+      spentAmount.parentCategories[id] > budgetedParentCategories[id]
     );
-  }, [spentAmount, budgetedCategories]);
+  }, [spentAmount, budgetedParentCategories]);
 
   const handleTransactions = useCallback(() => {
     if (active) {
@@ -52,8 +54,8 @@ const ParentCategory = ({
         <span>{name}</span>
         <span className="data-field">
           {summary
-            ? formatCurrency(budgetedCategories.total)
-            : formatCurrency(budgetedCategories[id])}
+            ? formatCurrency(budgetedParentCategories.total)
+            : formatCurrency(budgetedParentCategories[id])}
         </span>
         <span className="data-field spent">
           {summary

@@ -8,14 +8,16 @@ import { sortTransactions } from "../../../../utils";
 import { transactionStrings } from "../../../../static/constants";
 
 const TransactionsTable = ({ transactions, activeParentCategoryId }) => {
+  const { transactionsHeaders } = transactionStrings;
   const [sortOrder, setSortOrder] = useState({
-    value: "date",
-    asc: {},
+    value: transactionsHeaders.dateHeader.value,
+    asc: {
+      date: false,
+    },
   });
   if (!transactions.length || !activeParentCategoryId.length) return null;
 
   const sortedTransactions = sortTransactions([...transactions], sortOrder);
-  const { transactionsHeaders } = transactionStrings;
 
   return (
     <table>

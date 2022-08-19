@@ -72,7 +72,7 @@ function Form({ transactionUpdate }) {
               ...acc[category.parentCategory.id],
               categories: [
                 ...acc[category.parentCategory.id].categories,
-                { ...category.category },
+                { name: category.name, value: category.id },
               ],
             },
           };
@@ -81,7 +81,7 @@ function Form({ transactionUpdate }) {
           ...acc,
           [category.parentCategory.id]: {
             name: category.parentCategory.name,
-            categories: [{ ...category.category }],
+            categories: [{ name: category.name, value: category.id }],
           },
         };
       }, {}),
@@ -90,11 +90,11 @@ function Form({ transactionUpdate }) {
 
   const selectOptionsElements = useMemo(
     () =>
-      Object.entries(selectCategories).map(([key, properties]) => {
+      Object.entries(selectCategories).map(([key, categories]) => {
         return (
-          <optgroup label={properties.name} key={key}>
-            {properties.categories.map((category) => (
-              <option key={category.id} value={category.id}>
+          <optgroup label={categories.name} key={key}>
+            {categories.categories.map((category) => (
+              <option key={category.name} value={category.value}>
                 {category.name}
               </option>
             ))}
@@ -127,9 +127,8 @@ function Form({ transactionUpdate }) {
       date: transformDate,
       category: {
         ...allCategories.find(
-          (category) =>
-            category.categoryId === Number(formValues.selectValue.value)
-        ).category,
+          (category) => category.id === Number(formValues.selectValue.value)
+        ),
       },
     };
 
