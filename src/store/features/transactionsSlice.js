@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "../../client";
 import { userId } from "../../static/constants";
-import { calcSpentAmount } from "../../utils";
+import { calcSpentAmount, prepareNewTransaction } from "../../utils";
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
@@ -15,11 +15,18 @@ export const getTransactions = createAsyncThunk(
 
 export const addTransaction = createAsyncThunk(
   "transactions/addTransaction",
-  (data) => {
+  (data, { getState }) => {
+    const { parentCategories } = getState();
     return client
       .post(`budgets/${userId}/transactions`, data)
       .then((res) => res.json())
-      .then((resData) => resData)
+      .then((resData) => {
+        const preparedTransaction = prepareNewTransaction(
+          { ...resData },
+          parentCategories.allCategories
+        );
+        return preparedTransaction;
+      })
       .catch((err) => err.message);
   }
 );
@@ -54,11 +61,6 @@ export const transactionsSlice = createSlice({
     spentAmount: {},
     isTransactionsLoading: true,
     transactionsErrorMessage: null,
-  },
-  reducers: {
-    setTransactions: (state, action) => {
-      state.transactions = action.payload;
-    },
   },
   extraReducers: {
     [getTransactions.pending]: (state) => {
@@ -123,7 +125,5 @@ export const transactionsSlice = createSlice({
     },
   },
 });
-
-export const { setTransactions } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

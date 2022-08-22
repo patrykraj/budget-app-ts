@@ -125,11 +125,6 @@ function Form({ transactionUpdate }) {
       amount: Number(formValues.amount.value),
       categoryId: Number(formValues.selectValue.value),
       date: transformDate,
-      category: {
-        ...allCategories.find(
-          (category) => category.id === Number(formValues.selectValue.value)
-        ),
-      },
     };
 
     if (update) {
