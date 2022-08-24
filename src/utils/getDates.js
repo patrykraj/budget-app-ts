@@ -29,3 +29,13 @@ export function prepareDates(selectedDate) {
 
   return { startDate, endDate };
 }
+
+export function validatePayloadDate(payload, selectedDates) {
+  const payloadDate = new Date(payload.date).getTime();
+  const { startDate, endDate } = selectedDates;
+
+  return (
+    payloadDate >= new Date(startDate).getTime() &&
+    payloadDate < new Date(endDate).getTime()
+  );
+}

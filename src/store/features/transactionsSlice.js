@@ -5,7 +5,18 @@ import {
   calcSpentAmount,
   prepareNewTransaction,
   prepareDates,
+  validatePayloadDate,
 } from "../../utils";
+
+const initialState = {
+  transactions: [],
+  spentAmount: {},
+  isTransactionsLoading: true,
+  transactionsErrorMessage: null,
+  selectedDates: {
+    ...prepareDates(),
+  },
+};
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
@@ -57,7 +68,7 @@ export const updateTransaction = createAsyncThunk(
     const { id } = transaction;
 
     return client
-      .patch(`budgets/${userId}/transactions/${id}`, transaction)
+      .patch(`transactions/${id}`, transaction)
       .then((res) => res.json())
       .then((resData) => resData)
       .catch((err) => err.message);
@@ -66,15 +77,7 @@ export const updateTransaction = createAsyncThunk(
 
 export const transactionsSlice = createSlice({
   name: "transactions",
-  initialState: {
-    transactions: [],
-    spentAmount: {},
-    isTransactionsLoading: true,
-    transactionsErrorMessage: null,
-    selectedDates: {
-      ...prepareDates(),
-    },
-  },
+  initialState,
   reducers: {
     setSelectedDates: (state, { payload }) => {
       state.selectedDates = {
@@ -103,13 +106,7 @@ export const transactionsSlice = createSlice({
       state.isTransactionsLoading = false;
     },
     [addTransaction.fulfilled]: (state, { payload }) => {
-      const payloadDate = new Date(payload.date).getTime();
-      const { startDate, endDate } = state.selectedDates;
-
-      if (
-        payloadDate >= new Date(startDate).getTime() &&
-        payloadDate < new Date(endDate).getTime()
-      ) {
+      if (validatePayloadDate(payload, state.selectedDates)) {
         state.transactions.push(payload);
         const spentValues = calcSpentAmount(state.transactions);
         state.spentAmount = spentValues;
@@ -130,7 +127,13 @@ export const transactionsSlice = createSlice({
       const newTransactions = state.transactions.filter(
         (transaction) => transaction.id !== id
       );
-      newTransactions.push(payload);
+
+      if (validatePayloadDate(payload, state.selectedDates)) {
+        newTransactions.push(payload);
+      } else {
+        const spentValues = calcSpentAmount(newTransactions);
+        state.spentAmount = spentValues;
+      }
       state.transactions = newTransactions;
       state.isTransactionsLoading = false;
     },
