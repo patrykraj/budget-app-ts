@@ -31,11 +31,11 @@ export function prepareDates(selectedDate) {
 }
 
 export function validatePayloadDate(payload, selectedDates) {
-  const payloadDate = new Date(payload.date).getTime();
   const { startDate, endDate } = selectedDates;
 
-  return (
-    payloadDate >= new Date(startDate).getTime() &&
-    payloadDate < new Date(endDate).getTime()
-  );
+  const payloadDateTime = new Date(payload.date).getTime();
+  const startDateTime = new Date(startDate).getTime();
+  const endDateTime = new Date(endDate).getTime();
+
+  return payloadDateTime >= startDateTime && payloadDateTime < endDateTime;
 }
