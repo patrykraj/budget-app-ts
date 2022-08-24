@@ -1,13 +1,34 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "../../client";
 import { userId } from "../../static/constants";
-import { calcSpentAmount, prepareNewTransaction } from "../../utils";
+import {
+  calcSpentAmount,
+  prepareNewTransaction,
+  prepareDates,
+  validatePayloadDate,
+} from "../../utils";
+
+const initialState = {
+  transactions: [],
+  spentAmount: {},
+  isTransactionsLoading: true,
+  transactionsErrorMessage: null,
+  selectedDates: {
+    ...prepareDates(),
+  },
+};
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
-  () => {
+  (_, { getState }) => {
+    const {
+      transactions: { selectedDates },
+    } = getState();
+
     return client
-      .get(`transactions?budgetId=${userId}&_expand=category`)
+      .get(
+        `transactions?date_gte=${selectedDates.startDate}&date_lte=${selectedDates.endDate}&budgetId=${userId}&_expand=category`
+      )
       .then((res) => res.json())
       .catch((err) => err.message);
   }
@@ -56,11 +77,13 @@ export const updateTransaction = createAsyncThunk(
 
 export const transactionsSlice = createSlice({
   name: "transactions",
-  initialState: {
-    transactions: [],
-    spentAmount: {},
-    isTransactionsLoading: true,
-    transactionsErrorMessage: null,
+  initialState,
+  reducers: {
+    setSelectedDates: (state, { payload }) => {
+      state.selectedDates = {
+        ...payload,
+      };
+    },
   },
   extraReducers: {
     [getTransactions.pending]: (state) => {
@@ -83,10 +106,11 @@ export const transactionsSlice = createSlice({
       state.isTransactionsLoading = false;
     },
     [addTransaction.fulfilled]: (state, { payload }) => {
-      state.transactions.push(payload);
-
-      const spentValues = calcSpentAmount(state.transactions);
-      state.spentAmount = spentValues;
+      if (validatePayloadDate(payload, state.selectedDates)) {
+        state.transactions.push(payload);
+        const spentValues = calcSpentAmount(state.transactions);
+        state.spentAmount = spentValues;
+      }
       state.isTransactionsLoading = false;
     },
     [deleteTransaction.fulfilled]: (state, { payload }) => {
@@ -103,7 +127,13 @@ export const transactionsSlice = createSlice({
       const newTransactions = state.transactions.filter(
         (transaction) => transaction.id !== id
       );
-      newTransactions.push(payload);
+
+      if (validatePayloadDate(payload, state.selectedDates)) {
+        newTransactions.push(payload);
+      } else {
+        const spentValues = calcSpentAmount(newTransactions);
+        state.spentAmount = spentValues;
+      }
       state.transactions = newTransactions;
       state.isTransactionsLoading = false;
     },
@@ -125,5 +155,7 @@ export const transactionsSlice = createSlice({
     },
   },
 });
+
+export const { setSelectedDates } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;
