@@ -189,6 +189,8 @@ function Form({ transactionUpdate }) {
           maxDate={getMaxDate()}
           selected={transactionsDate}
           onChange={(date) => setTransactionsDate(date)}
+          onKeyDown={(event) => event.preventDefault()}
+          required
         />
       </div>
       <Button

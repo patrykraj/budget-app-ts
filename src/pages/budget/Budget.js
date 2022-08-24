@@ -45,6 +45,7 @@ function Budget() {
               activeParentCategoryId={activeParentCategoryId}
             />
           </section>
+          <div id="root-portal" />
         </Grid>
       </PageWrapper>
       <BudgetRoutes />

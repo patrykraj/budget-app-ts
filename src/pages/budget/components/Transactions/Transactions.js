@@ -2,24 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import TransactionsTable from "./TransactionsTable";
-import { Button } from "../../../../components";
-import {
-  buttonTypes,
-  navigationStrings,
-  transactionStrings,
-} from "../../../../static/constants";
 import { TransactionsWrapper } from "./Transactions.css";
+import TransactionsTopBar from "./TransactionsTopBar";
 
 const Transactions = ({ activeParentCategoryId, transactions }) => {
-  const { regular } = buttonTypes;
-  const { budgetTransactionNew } = navigationStrings;
-  const { addNewTransaction } = transactionStrings;
-
   return (
     <TransactionsWrapper>
-      <Button type={regular} to={budgetTransactionNew}>
-        {addNewTransaction}
-      </Button>
+      <TransactionsTopBar />
       <TransactionsTable
         transactions={transactions}
         activeParentCategoryId={activeParentCategoryId}

@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Grid = styled.div`
   display: flex;
+  position: relative;
 
   section:nth-child(1) {
     flex: 4;
@@ -12,7 +13,7 @@ const Grid = styled.div`
   }
 
   section + section {
-    margin: 0 ${({ theme }) => theme.spacing.sm}px;
+    margin-left: ${({ theme }) => theme.spacing.xl}px;
   }
 `;
 

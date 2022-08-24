@@ -1,13 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import client from "../../client";
 import { userId } from "../../static/constants";
-import { calcSpentAmount, prepareNewTransaction } from "../../utils";
+import {
+  calcSpentAmount,
+  prepareNewTransaction,
+  prepareDates,
+} from "../../utils";
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
-  () => {
+  (_, { getState }) => {
+    const {
+      transactions: { selectedDates },
+    } = getState();
+
     return client
-      .get(`transactions?budgetId=${userId}&_expand=category`)
+      .get(
+        `transactions?date_gte=${selectedDates.startDate}&date_lte=${selectedDates.endDate}&budgetId=${userId}&_expand=category`
+      )
       .then((res) => res.json())
       .catch((err) => err.message);
   }
@@ -47,7 +57,7 @@ export const updateTransaction = createAsyncThunk(
     const { id } = transaction;
 
     return client
-      .patch(`transactions/${id}`, transaction)
+      .patch(`budgets/${userId}/transactions/${id}`, transaction)
       .then((res) => res.json())
       .then((resData) => resData)
       .catch((err) => err.message);
@@ -61,6 +71,16 @@ export const transactionsSlice = createSlice({
     spentAmount: {},
     isTransactionsLoading: true,
     transactionsErrorMessage: null,
+    selectedDates: {
+      ...prepareDates(),
+    },
+  },
+  reducers: {
+    setSelectedDates: (state, { payload }) => {
+      state.selectedDates = {
+        ...payload,
+      };
+    },
   },
   extraReducers: {
     [getTransactions.pending]: (state) => {
@@ -83,10 +103,17 @@ export const transactionsSlice = createSlice({
       state.isTransactionsLoading = false;
     },
     [addTransaction.fulfilled]: (state, { payload }) => {
-      state.transactions.push(payload);
+      const payloadDate = new Date(payload.date).getTime();
+      const { startDate, endDate } = state.selectedDates;
 
-      const spentValues = calcSpentAmount(state.transactions);
-      state.spentAmount = spentValues;
+      if (
+        payloadDate >= new Date(startDate).getTime() &&
+        payloadDate < new Date(endDate).getTime()
+      ) {
+        state.transactions.push(payload);
+        const spentValues = calcSpentAmount(state.transactions);
+        state.spentAmount = spentValues;
+      }
       state.isTransactionsLoading = false;
     },
     [deleteTransaction.fulfilled]: (state, { payload }) => {
@@ -125,5 +152,7 @@ export const transactionsSlice = createSlice({
     },
   },
 });
+
+export const { setSelectedDates } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;

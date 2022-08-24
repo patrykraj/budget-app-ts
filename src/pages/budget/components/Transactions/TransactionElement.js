@@ -19,8 +19,8 @@ const TransactionElement = ({ id, description, amount, date, category }) => {
     <TransactionListElement onClick={handleRedirectToFormUpdate}>
       <td>{description}</td>
       <td>{category}</td>
-      <td>{formatCurrency(amount)}</td>
-      <td>{date}</td>
+      <td className="align-right">{formatCurrency(amount)}</td>
+      <td className="align-right">{date}</td>
       <td>
         <Button type={cross} to={`/budget/transaction/delete/${id}`} />
       </td>
