@@ -1,33 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import client from "../../client";
 import { userId } from "../../static/constants";
+import { validateResponse } from "../../utils";
+
+const initialState = {
+  allCategories: [],
+  parentCategories: [],
+  budgetedParentCategories: {},
+  isCategoriesLoading: true,
+  categoriesErrorMessage: null,
+};
 
 export const getAllCategories = createAsyncThunk(
   "allCategories/getAllCategories",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
       const [categories, budget] = await Promise.all([
         client
           .get("categories?_expand=parentCategory")
-          .then((res) => res.json()),
-        client.get(`budgets/${userId}`).then((res) => res.json()),
+          .then((res) => validateResponse(res)),
+        client.get(`budgets/${userId}`).then((res) => validateResponse(res)),
       ]);
       return { categories, budget };
     } catch (err) {
-      return err.message;
+      return rejectWithValue(err.message);
     }
   }
 );
 
 export const allCategoriesSlice = createSlice({
   name: "allCategories",
-  initialState: {
-    allCategories: [],
-    parentCategories: [],
-    budgetedParentCategories: {},
-    isCategoriesLoading: true,
-    categoriesErrorMessage: null,
-  },
+  initialState,
   reducers: {
     setBudgetedCategories: (state, { payload }) => {
       state.budgetedParentCategories = payload;

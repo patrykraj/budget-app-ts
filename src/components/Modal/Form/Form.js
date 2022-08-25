@@ -19,13 +19,13 @@ import {
   updateTransaction,
 } from "../../../store/features/transactionsSlice";
 
-function Form({ transactionUpdate }) {
+function Form({ isTransactionUpdate }) {
   let selectedTransaction = null;
   let { id } = useParams();
   const { transactions, isTransactionsLoading } = useSelector(
     (store) => store.transactions
   );
-  if (transactionUpdate) {
+  if (isTransactionUpdate) {
     id = parseInt(id, 10);
     selectedTransaction = transactions.find(
       (transaction) => transaction.id === id
@@ -38,7 +38,7 @@ function Form({ transactionUpdate }) {
   const { regular } = buttonTypes;
 
   const [transactionsDate, setTransactionsDate] = useState(
-    getDate(selectedTransaction, transactionUpdate)
+    getDate(selectedTransaction, isTransactionUpdate)
   );
   const [formValues, setFormValues] = useState({
     description: {
@@ -104,7 +104,7 @@ function Form({ transactionUpdate }) {
     [selectCategories]
   );
 
-  const handleSubmitForm = async (e, update) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
     const isValid = formValidator({
       type: isFormValid,
@@ -120,14 +120,14 @@ function Form({ transactionUpdate }) {
     );
 
     const data = {
-      id: (update && id) || Math.floor(Math.random() * 1000000),
+      id: (isTransactionUpdate && id) || Math.floor(Math.random() * 1000000),
       description: formValues.description.value,
       amount: Number(formValues.amount.value),
       categoryId: Number(formValues.selectValue.value),
       date: transformDate,
     };
 
-    if (update) {
+    if (isTransactionUpdate) {
       await dispatch(updateTransaction(data));
     } else {
       await dispatch(addTransaction(data));
@@ -195,10 +195,10 @@ function Form({ transactionUpdate }) {
       </div>
       <Button
         type={regular}
-        onclick={(e) => handleSubmitForm(e, transactionUpdate)}
+        onclick={(e) => handleSubmitForm(e)}
         loading={isTransactionsLoading}
       >
-        {transactionUpdate ? updateButton : submitButton}
+        {isTransactionUpdate ? updateButton : submitButton}
       </Button>
     </form>
   );
@@ -207,9 +207,9 @@ function Form({ transactionUpdate }) {
 export default Form;
 
 Form.defaultProps = {
-  transactionUpdate: false,
+  isTransactionUpdate: false,
 };
 
 Form.propTypes = {
-  transactionUpdate: PropTypes.bool,
+  isTransactionUpdate: PropTypes.bool,
 };
