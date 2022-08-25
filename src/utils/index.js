@@ -8,6 +8,7 @@ import {
 import calcSpentAmount from "./calcSpentAmount";
 import sortTransactions from "./sortTransactions";
 import prepareNewTransaction from "./prepareNewTransaction";
+import validateResponse from "./validateResponse";
 
 export {
   formatCurrency,
@@ -18,4 +19,5 @@ export {
   sortTransactions,
   prepareNewTransaction,
   validatePayloadDate,
+  validateResponse,
 };

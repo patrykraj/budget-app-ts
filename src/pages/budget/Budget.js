@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { PageWrapper } from "../../components";
+import { PageWrapper, ErrorHandler } from "../../components";
 import { MenuContent, Transactions, BudgetRoutes } from "./components";
 import Grid from "./Budget.css";
 
@@ -24,7 +24,12 @@ function Budget() {
     return categoriesErrorMessage || transactionsErrorMessage;
   }, [categoriesErrorMessage, transactionsErrorMessage]);
 
-  if (error) return <p>{error.message}</p>;
+  if (error)
+    return (
+      <PageWrapper>
+        <ErrorHandler>{error}</ErrorHandler>
+      </PageWrapper>
+    );
 
   return (
     <>

@@ -6,6 +6,7 @@ import {
   prepareNewTransaction,
   prepareDates,
   validatePayloadDate,
+  validateResponse,
 } from "../../utils";
 
 const initialState = {
@@ -20,7 +21,7 @@ const initialState = {
 
 export const getTransactions = createAsyncThunk(
   "transactions/getTransactions",
-  (_, { getState }) => {
+  (_, { getState, rejectWithValue }) => {
     const {
       transactions: { selectedDates },
     } = getState();
@@ -29,49 +30,62 @@ export const getTransactions = createAsyncThunk(
       .get(
         `transactions?date_gte=${selectedDates.startDate}&date_lte=${selectedDates.endDate}&budgetId=${userId}&_expand=category`
       )
-      .then((res) => res.json())
-      .catch((err) => err.message);
+      .then((res) => validateResponse(res))
+      .catch((err) => rejectWithValue(err.message));
   }
 );
 
 export const addTransaction = createAsyncThunk(
   "transactions/addTransaction",
-  (data, { getState }) => {
-    const { parentCategories } = getState();
+  (data, { getState, rejectWithValue }) => {
+    const {
+      parentCategories: { allCategories },
+    } = getState();
+
     return client
       .post(`budgets/${userId}/transactions`, data)
-      .then((res) => res.json())
+      .then((res) => validateResponse(res))
       .then((resData) => {
         const preparedTransaction = prepareNewTransaction(
           { ...resData },
-          parentCategories.allCategories
+          allCategories
         );
         return preparedTransaction;
       })
-      .catch((err) => err.message);
+      .catch((err) => rejectWithValue(err.message));
   }
 );
 
 export const deleteTransaction = createAsyncThunk(
   "transactions/deleteTransaction",
-  (id) => {
+  (id, { rejectWithValue }) => {
     return client
       .delete(`transactions/${id}`)
+      .then((res) => validateResponse(res))
       .then(() => id)
-      .catch((err) => err.message);
+      .catch((err) => rejectWithValue(err.message));
   }
 );
 
 export const updateTransaction = createAsyncThunk(
   "transactions/updateTransaction",
-  (transaction) => {
+  (transaction, { getState, rejectWithValue }) => {
     const { id } = transaction;
+    const {
+      parentCategories: { allCategories },
+    } = getState();
 
     return client
       .patch(`transactions/${id}`, transaction)
-      .then((res) => res.json())
-      .then((resData) => resData)
-      .catch((err) => err.message);
+      .then((res) => validateResponse(res))
+      .then((resData) => {
+        const preparedTransaction = prepareNewTransaction(
+          { ...resData },
+          allCategories
+        );
+        return preparedTransaction;
+      })
+      .catch((err) => rejectWithValue(err.message));
   }
 );
 
@@ -130,10 +144,10 @@ export const transactionsSlice = createSlice({
 
       if (validatePayloadDate(payload, state.selectedDates)) {
         newTransactions.push(payload);
-      } else {
-        const spentValues = calcSpentAmount(newTransactions);
-        state.spentAmount = spentValues;
       }
+
+      const spentValues = calcSpentAmount(newTransactions);
+      state.spentAmount = spentValues;
       state.transactions = newTransactions;
       state.isTransactionsLoading = false;
     },

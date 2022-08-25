@@ -31,7 +31,7 @@ const budgetRoutes = [
     exact: true,
     element: () => (
       <Modal>
-        <Form transactionUpdate />
+        <Form isTransactionUpdate />
       </Modal>
     ),
   },
