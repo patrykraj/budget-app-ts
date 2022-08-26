@@ -6,7 +6,7 @@ export const ModalWrapper = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: ${({ theme }) => theme.bg.dark};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,5 +15,5 @@ export const ModalWrapper = styled.div`
 export const ModalContainer = styled.div`
   width: 300px;
   height: 250px;
-  background: white;
+  background: ${({ theme }) => theme.colors.white.light};
 `;

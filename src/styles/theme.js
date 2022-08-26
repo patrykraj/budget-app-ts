@@ -1,4 +1,4 @@
-const theme = {
+export const lightTheme = {
   spacing: {
     xxs: 5,
     xs: 10,
@@ -40,6 +40,45 @@ const theme = {
       gray: "rgb(248, 248, 248)",
     },
   },
+  bg: {
+    light: "rgba(255, 255, 255, 0.2)",
+    dark: "rgba(0, 0, 0, 0.6)",
+  },
+  switch: {
+    day: "yellow",
+    night: "darkgrey",
+  },
 };
 
-export default theme;
+export const darkTheme = {
+  ...lightTheme,
+  font: {
+    ...lightTheme.font,
+    colors: {
+      ...lightTheme.font.colors,
+      light: lightTheme.font.colors.dark,
+      dark: lightTheme.font.colors.light,
+    },
+  },
+  colors: {
+    ...lightTheme.colors,
+    gray: {
+      light: "rgb(67, 67, 67)",
+      normal: "rgb(85, 85, 85)",
+      dark: "rgb(93, 93, 93)",
+    },
+    white: {
+      light: "rgb(32, 32, 32)",
+      gray: "rgb(57, 57, 57)",
+    },
+  },
+  bg: {
+    ...lightTheme.bg,
+    light: lightTheme.bg.dark,
+    dark: lightTheme.bg.light,
+  },
+  switch: {
+    day: lightTheme.switch.night,
+    night: lightTheme.switch.day,
+  },
+};
