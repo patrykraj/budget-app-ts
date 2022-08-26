@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
 import { PageWrapper, ErrorHandler } from "../../components";
@@ -11,11 +11,10 @@ function Budget() {
     allCategories,
     isCategoriesLoading,
     categoriesErrorMessage,
+    activeParentCategoryId,
   } = useSelector((store) => store.parentCategories);
   const { transactions, isTransactionsLoading, transactionsErrorMessage } =
     useSelector((store) => store.transactions);
-
-  const [activeParentCategoryId, setActiveParentCategoryId] = useState([]);
 
   const isLoading = useMemo(() => {
     return isCategoriesLoading || isTransactionsLoading;
@@ -41,7 +40,6 @@ function Budget() {
               allCategories={allCategories}
               isLoading={isLoading}
               parentCategories={parentCategories}
-              setActiveParentCategoryId={setActiveParentCategoryId}
             />
           </section>
           <section>

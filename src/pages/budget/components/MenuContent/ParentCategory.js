@@ -1,20 +1,14 @@
 import React, { useCallback, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import ChildCategories from "./ChildCategories";
+import ChildCategory from "./ChildCategory";
 import { formatCurrency } from "../../../../utils";
 import { List, ParentCategoryElement } from "./ListElements.css";
+import { setActiveParentCategoryId } from "../../../../store/features/parentCategoriesSlice";
 
-const ParentCategory = ({
-  id,
-  name,
-  active,
-  onclick,
-  items,
-  noExtend,
-  summary,
-}) => {
+const ParentCategory = ({ id, name, active, items, noExtend, summary }) => {
+  const dispatch = useDispatch();
   const { budgetedParentCategories } = useSelector(
     (store) => store.parentCategories
   );
@@ -33,12 +27,14 @@ const ParentCategory = ({
 
   const handleTransactions = useCallback(() => {
     if (active) {
-      return onclick([]);
+      return dispatch(setActiveParentCategoryId([]));
     }
     if (summary) {
-      return onclick(items.map((i) => i.parentCategoryId));
+      return dispatch(
+        setActiveParentCategoryId(items.map((i) => i.parentCategoryId))
+      );
     }
-    return onclick([id]);
+    return dispatch(setActiveParentCategoryId([id]));
   }, [id, active, summary]);
 
   return (
@@ -65,7 +61,16 @@ const ParentCategory = ({
       </div>
       {active && !summary && !noExtend && (
         <List>
-          <ChildCategories items={items} id={id} spentAmount={spentAmount} />
+          {items.map((category) =>
+            id === category.parentCategoryId ? (
+              <ChildCategory
+                key={category.id}
+                category={category}
+                id={id}
+                spentAmount={spentAmount}
+              />
+            ) : null
+          )}
         </List>
       )}
     </ParentCategoryElement>
@@ -83,7 +88,6 @@ ParentCategory.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
-  onclick: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({})),
   noExtend: PropTypes.bool.isRequired,
   summary: PropTypes.bool,

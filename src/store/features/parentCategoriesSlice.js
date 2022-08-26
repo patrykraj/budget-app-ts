@@ -10,6 +10,7 @@ const initialState = {
   budgetedParentCategories: {},
   isCategoriesLoading: true,
   categoriesErrorMessage: null,
+  activeParentCategoryId: [],
 };
 
 export const getAllCategories = createAsyncThunk(
@@ -33,8 +34,8 @@ export const allCategoriesSlice = createSlice({
   name: "allCategories",
   initialState,
   reducers: {
-    setBudgetedCategories: (state, { payload }) => {
-      state.budgetedParentCategories = payload;
+    setActiveParentCategoryId: (state, { payload }) => {
+      state.activeParentCategoryId = payload;
     },
   },
   extraReducers: {
@@ -86,5 +87,7 @@ export const allCategoriesSlice = createSlice({
     },
   },
 });
+
+export const { setActiveParentCategoryId } = allCategoriesSlice.actions;
 
 export default allCategoriesSlice.reducer;

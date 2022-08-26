@@ -1,18 +1,22 @@
-import React from "react";
+import React, { Suspense } from "react";
 import PropTypes from "prop-types";
 
-import TransactionsTable from "./TransactionsTable";
+import { Loader } from "../../../../components";
 import { TransactionsWrapper } from "./Transactions.css";
 import TransactionsTopBar from "./TransactionsTopBar";
+
+const TransactionsTable = React.lazy(() => import("./TransactionsTable"));
 
 const Transactions = ({ activeParentCategoryId, transactions }) => {
   return (
     <TransactionsWrapper>
       <TransactionsTopBar />
-      <TransactionsTable
-        transactions={transactions}
-        activeParentCategoryId={activeParentCategoryId}
-      />
+      <Suspense fallback={<Loader />}>
+        <TransactionsTable
+          transactions={transactions}
+          activeParentCategoryId={activeParentCategoryId}
+        />
+      </Suspense>
     </TransactionsWrapper>
   );
 };

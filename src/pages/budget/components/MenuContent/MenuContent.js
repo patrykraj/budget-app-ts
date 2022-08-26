@@ -10,7 +10,6 @@ const MenuContent = ({
   allCategories,
   isLoading,
   parentCategories,
-  setActiveParentCategoryId,
 }) => {
   if (isLoading) return <Loader />;
 
@@ -23,7 +22,6 @@ const MenuContent = ({
         id={parentCategories.length + 1}
         name={total}
         active={activeParentCategoryId.length > 1}
-        onclick={setActiveParentCategoryId}
         items={allCategories}
         summary
         noExtend
@@ -38,7 +36,6 @@ const MenuContent = ({
             activeParentCategoryId.length === 1 &&
             activeParentCategoryId[0] === item.id
           }
-          onclick={setActiveParentCategoryId}
           items={allCategories}
           noExtend={item.noExtend}
         />
@@ -60,5 +57,4 @@ MenuContent.propTypes = {
   allCategories: PropTypes.arrayOf(PropTypes.shape({})),
   isLoading: PropTypes.bool.isRequired,
   parentCategories: PropTypes.arrayOf(PropTypes.shape({})),
-  setActiveParentCategoryId: PropTypes.func.isRequired,
 };
