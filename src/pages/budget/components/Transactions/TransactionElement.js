@@ -28,7 +28,7 @@ const TransactionElement = ({ id, description, amount, date, category }) => {
   );
 };
 
-export default TransactionElement;
+export default React.memo(TransactionElement);
 
 TransactionElement.propTypes = {
   id: PropTypes.number.isRequired,
