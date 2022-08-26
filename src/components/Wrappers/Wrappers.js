@@ -17,7 +17,6 @@ export const FlexWrapper = styled.div`
 
 export const PageWrapper = styled(Wrapper)`
   padding-top: 1rem;
-  background-color: ${({ theme }) => theme.colors.white.light};
 `;
 
 export const NavigationWrapper = styled(Wrapper)`

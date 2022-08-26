@@ -6,6 +6,12 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     background-color: black;
 
+    body {
+      background: ${({ theme }) => theme.colors.white.light};
+      color: ${({ theme }) => theme.font.colors.dark};
+      transition: all .2s;
+    }
+
     *,
     ::before,
     ::after {

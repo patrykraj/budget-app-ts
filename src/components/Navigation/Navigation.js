@@ -6,8 +6,9 @@ import { Container, Nav } from "./Navigation.css";
 import { NavigationWrapper } from "../Wrappers/Wrappers";
 import Button from "../Button/Button";
 import { buttonTypes } from "../../static/constants";
+import ThemeSwitch from "../ThemeSwitch/ThemeSwitch";
 
-function Navigation({ routes, RightElement }) {
+function Navigation({ routes, setIsDefaultTheme, isDefaultTheme }) {
   const { pathname } = useLocation();
   const [activeLink, setActiveLink] = useState(pathname.split("/")[1]);
   const { inline } = buttonTypes;
@@ -28,7 +29,10 @@ function Navigation({ routes, RightElement }) {
             </Button>
           ))}
         </Nav>
-        {RightElement}
+        <ThemeSwitch
+          setIsDefaultTheme={setIsDefaultTheme}
+          isDefaultTheme={isDefaultTheme}
+        />
       </NavigationWrapper>
     </Container>
   );
@@ -36,11 +40,8 @@ function Navigation({ routes, RightElement }) {
 
 export default Navigation;
 
-Navigation.defaultProps = {
-  RightElement: null,
-};
-
 Navigation.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  RightElement: PropTypes.node,
+  isDefaultTheme: PropTypes.bool.isRequired,
+  setIsDefaultTheme: PropTypes.func.isRequired,
 };

@@ -1,31 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Navigation, Button, FlexWrapper } from "./components";
+import { Navigation } from "./components";
 import GlobalStyle from "./styles/index.css";
 
-import theme from "./styles/theme";
+import { lightTheme, darkTheme } from "./styles/theme";
 import routes from "./static/routes";
-import { buttonTypes, languages } from "./static/constants";
 import useInitStore from "./hooks/useInitStore";
 
 function RootPage() {
-  const { regular } = buttonTypes;
-  const { pl, en } = languages;
   useInitStore();
+  const [isDefaultTheme, setIsDefaultTheme] = useState(true);
 
   return (
-    <>
+    <ThemeProvider theme={isDefaultTheme ? lightTheme : darkTheme}>
       <GlobalStyle />
       <BrowserRouter>
         <Navigation
           routes={routes}
-          RightElement={
-            <FlexWrapper>
-              <Button type={regular}>{pl}</Button>
-              <Button type={regular}>{en}</Button>
-            </FlexWrapper>
-          }
+          setIsDefaultTheme={setIsDefaultTheme}
+          isDefaultTheme={isDefaultTheme}
         />
         <Routes>
           {routes.map((route) => (
@@ -39,16 +33,8 @@ function RootPage() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </>
-  );
-}
-
-function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      <RootPage />
     </ThemeProvider>
   );
 }
 
-export default App;
+export default RootPage;
