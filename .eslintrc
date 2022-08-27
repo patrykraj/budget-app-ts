@@ -43,5 +43,16 @@
             }
           ],
         "jsx-a11y/label-has-associated-control": 0
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.test.js",
+          "**/*.test.jsx"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
 }

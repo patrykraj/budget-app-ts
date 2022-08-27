@@ -1,6 +1,11 @@
 import React from "react";
-import { test, render, screen, expect } from "@testing-library/react";
+import { render, screen, expect } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import App from "./App";
+
+// beforeEach(() => {
+//   wrapped = <App />;
+// });
 
 test("renders learn react link", () => {
   render(<App />);
