@@ -1,14 +1,17 @@
 import React from "react";
-import { render, screen, expect } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+
 import App from "./App";
+import store from "./store";
 
-// beforeEach(() => {
-//   wrapped = <App />;
-// });
-
-test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test("App renders router links", () => {
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+  const linkElements = screen.getAllByRole("link");
+  expect(linkElements.length).toBe(2);
 });

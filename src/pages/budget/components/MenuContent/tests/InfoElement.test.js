@@ -1,24 +1,25 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import InfoElement from "../InfoElement";
+import "@testing-library/jest-dom";
+import { ThemeProvider } from "styled-components";
 
+import InfoElement from "../InfoElement";
+import theme from "../../../../../utils/testUtils/themeMock";
 import { budgetPageStrings } from "../../../../../static/constants";
 
-// const providerProps = {};
+const providerProps = {
+  theme,
+};
 
-describe("InfoElement", () => {
-  it("should render", () => {
-    const { budget, spent } = budgetPageStrings;
+test("InfoElement should render", () => {
+  render(
+    <ThemeProvider {...providerProps}>
+      <InfoElement />
+    </ThemeProvider>
+  );
 
-    render(<InfoElement />);
-    expect(screen.getByText(budget)).toBeDefined();
-    expect(screen.getByText(spent)).toBeDefined();
-  });
-
-  // it('should be hidden if not the active payment', () => {
-  //     const {container} = render(<AffirmContent isSelected={false} />, {
-  //         providerProps,
-  //     });
-  //     expect(container.querySelector('.hidden')).not.toBeNull();
-  // });
+  const { budget, spent } = budgetPageStrings;
+  expect(screen.getByText(budget)).toBeDefined();
+  expect(screen.getByText(spent)).toBeDefined();
+  expect(screen.getByRole("listitem")).toBeDefined();
 });
