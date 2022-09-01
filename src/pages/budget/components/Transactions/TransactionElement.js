@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useNavigate, BrowserRouter as Router } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "../../../../components";
 import { TransactionListElement } from "./Transactions.css";
@@ -16,17 +16,15 @@ const TransactionElement = ({ id, description, amount, date, category }) => {
   };
 
   return (
-    <Router>
-      <TransactionListElement onClick={handleRedirectToFormUpdate}>
-        <td>{description}</td>
-        <td>{category}</td>
-        <td className="align-right">{formatCurrency(amount)}</td>
-        <td className="align-right">{date}</td>
-        <td>
-          <Button type={cross} to={`/budget/transaction/delete/${id}`} />
-        </td>
-      </TransactionListElement>
-    </Router>
+    <TransactionListElement onClick={handleRedirectToFormUpdate}>
+      <td>{description}</td>
+      <td>{category}</td>
+      <td className="align-right">{formatCurrency(amount)}</td>
+      <td className="align-right">{date}</td>
+      <td>
+        <Button type={cross} to={`/budget/transaction/delete/${id}`} />
+      </td>
+    </TransactionListElement>
   );
 };
 
