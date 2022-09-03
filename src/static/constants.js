@@ -64,3 +64,8 @@ export const confirmStrings = {
   cancel: "Anuluj",
   transactionNotFound: "Nie znaleziono transakcji",
 };
+
+export const inputErrorHandlerStrings = {
+  incorrectValue: "Wprowadz wlasciwa wartosc",
+  requiredField: "Pole wymagane",
+};
