@@ -2,14 +2,14 @@ import React from "react";
 import { screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import InputErrorHandler from "../InputErrorHandler";
-import renderWithProviders from "../../../../../utils/testUtils/testUtils";
+import InputErrorHandler from "./InputErrorHandler";
+import renderWithProviders from "../../../../utils/testUtils/testUtils";
 import {
   inputErrorHandlerStrings,
   formStrings,
   validationTypes,
-} from "../../../../../static/constants";
-import formValidator from "../formValidators";
+} from "../../../../static/constants";
+import formValidator from "./formValidators";
 
 describe("InputErrorHandler", () => {
   const { incorrectValue, requiredField } = inputErrorHandlerStrings;
