@@ -9,13 +9,6 @@ import renderWithProviders from "../../../../../utils/testUtils/testUtils";
 
 import { transactionStrings } from "../../../../../static/constants";
 
-const mockDispatch = jest.fn();
-
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useDispatch: () => mockDispatch.mockReturnValueOnce(true),
-}));
-
 describe("TransactionsTable", () => {
   test("TransactionsTable should render", () => {
     renderWithProviders(

@@ -31,7 +31,7 @@ function Button({ type, children, active, onclick, loading, ...props }) {
       <Link
         {...props}
         onClick={
-          onclick
+          type !== cross
             ? (e) => {
                 e.stopPropagation();
                 onclick(props.to.slice(1));

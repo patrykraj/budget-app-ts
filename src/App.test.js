@@ -1,17 +1,12 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import App from "./App";
-import store from "./store";
+import renderWithProviders from "./utils/testUtils/testUtils";
 
-test("App renders router links", () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+test("App should render", () => {
+  renderWithProviders(<App />);
   const linkElements = screen.getAllByRole("link");
   expect(linkElements.length).toBe(2);
 });
