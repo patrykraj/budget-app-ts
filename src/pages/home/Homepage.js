@@ -4,7 +4,7 @@ import { Wrapper } from "../../components";
 function Homepage() {
   return (
     <Wrapper>
-      <div>HOMEPAGE</div>
+      <div>Content to be added...</div>
     </Wrapper>
   );
 }

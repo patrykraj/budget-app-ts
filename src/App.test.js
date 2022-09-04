@@ -1,9 +1,12 @@
 import React from "react";
-import { test, render, screen, expect } from "@testing-library/react";
-import App from "./App";
+import { screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 
-test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import App from "./App";
+import renderWithProviders from "./utils/testUtils/testUtils";
+
+test("App should render", () => {
+  renderWithProviders(<App />);
+  const linkElements = screen.getAllByRole("link");
+  expect(linkElements.length).toBe(2);
 });
