@@ -5,8 +5,10 @@ import { Route, Routes, MemoryRouter, BrowserRouter } from "react-router-dom";
 
 import Form from "./Form";
 import renderWithProviders from "../../../utils/testUtils/testUtils";
-import transactionsMock from "../../../utils/testUtils/transactionsMock";
-import { allCategoriesMock } from "../../../utils/testUtils/categoriesSliceMock";
+import {
+  allCategoriesMock,
+  transactionsMock,
+} from "../../../utils/testUtils/mocks";
 import { transactionStrings } from "../../../static/constants";
 
 const mockDispatch = jest.fn();

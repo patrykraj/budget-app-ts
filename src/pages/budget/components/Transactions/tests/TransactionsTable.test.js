@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 
 import TransactionsTable from "../TransactionsTable";
-import transactionsMock from "../../../../../utils/testUtils/transactionsMock";
+import { transactionsMock } from "../../../../../utils/testUtils/mocks";
 import renderWithProviders from "../../../../../utils/testUtils/testUtils";
 
 import { transactionStrings } from "../../../../../static/constants";

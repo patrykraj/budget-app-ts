@@ -6,7 +6,7 @@ import ParentCategory from "../ParentCategory";
 import {
   allCategoriesMock,
   parentCategoriesMock,
-} from "../../../../../utils/testUtils/categoriesSliceMock";
+} from "../../../../../utils/testUtils/mocks";
 import renderWithProviders from "../../../../../utils/testUtils/testUtils";
 
 const preloadedProps = {

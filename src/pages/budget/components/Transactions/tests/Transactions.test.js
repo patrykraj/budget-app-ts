@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import Transactions from "../Transactions";
 import renderWithProviders from "../../../../../utils/testUtils/testUtils";
-import transactionsMock from "../../../../../utils/testUtils/transactionsMock";
+import { transactionsMock } from "../../../../../utils/testUtils/mocks";
 
 test("Transactions should render", () => {
   renderWithProviders(

@@ -5,7 +5,7 @@ import { Route, Routes, MemoryRouter, BrowserRouter } from "react-router-dom";
 
 import Confirm from "./Confirm";
 import renderWithProviders from "../../../utils/testUtils/testUtils";
-import transactionsMock from "../../../utils/testUtils/transactionsMock";
+import { transactionsMock } from "../../../utils/testUtils/mocks";
 import { confirmStrings } from "../../../static/constants";
 
 const mockDispatch = jest.fn();

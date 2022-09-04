@@ -4,11 +4,11 @@ import "@testing-library/jest-dom";
 import { ThemeProvider } from "styled-components";
 
 import InfoElement from "../InfoElement";
-import theme from "../../../../../utils/testUtils/themeMock";
+import { themeMock } from "../../../../../utils/testUtils/mocks";
 import { budgetPageStrings } from "../../../../../static/constants";
 
 const providerProps = {
-  theme,
+  theme: themeMock,
 };
 
 test("InfoElement should render", () => {

@@ -6,7 +6,7 @@ import MenuContent from "../MenuContent";
 import {
   allCategoriesMock,
   parentCategoriesMock,
-} from "../../../../../utils/testUtils/categoriesSliceMock";
+} from "../../../../../utils/testUtils/mocks";
 import renderWithProviders from "../../../../../utils/testUtils/testUtils";
 
 describe("<MenuContent />", () => {

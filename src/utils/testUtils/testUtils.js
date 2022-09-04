@@ -5,7 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 
-import theme from "./themeMock";
+import { themeMock } from "./mocks";
 import transactionsSlice from "../../store/features/transactionsSlice";
 import allCategoriesSlice from "../../store/features/parentCategoriesSlice";
 
@@ -27,7 +27,7 @@ function renderWithProviders(
   function Wrapper({ children }) {
     return (
       <Provider store={store}>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={themeMock}>{children}</ThemeProvider>
       </Provider>
     );
   }

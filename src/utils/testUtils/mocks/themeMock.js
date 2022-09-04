@@ -1,4 +1,4 @@
-const mockTheme = {
+const themeMock = {
   spacing: {
     xxs: 5,
     xs: 10,
@@ -50,4 +50,4 @@ const mockTheme = {
   },
 };
 
-export default mockTheme;
+export default themeMock;
