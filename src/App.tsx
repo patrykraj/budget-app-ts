@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navigation } from "./components";
@@ -27,7 +27,6 @@ function RootPage() {
               key={route.to}
               path={route.path || route.to}
               element={route.element()}
-              exact={route.exact}
             />
           ))}
           <Route path="*" element={<Navigate to="/" replace />} />

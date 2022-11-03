@@ -62,7 +62,6 @@ export const allCategoriesSlice = createSlice({
       const budgetedCategoriesTemp = { total: 0 };
       for (let i = 0; i < budget.categories.length; i++) {
         if (
-          // eslint-disable-next-line no-prototype-builtins
           budgetedCategoriesTemp.hasOwnProperty(
             budget.categories[i].parentCategoryId
           )

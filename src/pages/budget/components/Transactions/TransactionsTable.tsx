@@ -1,4 +1,3 @@
-/* eslint-disable no-prototype-builtins */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 

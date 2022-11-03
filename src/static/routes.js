@@ -3,7 +3,7 @@ import Homepage from "../pages/home/Homepage";
 import Budget from "../pages/budget/Budget";
 
 const routes = [
-  { to: "/", id: "", name: "Główna", element: () => <Homepage />, exact: true },
+  { to: "/", id: "", name: "Główna", element: () => <Homepage /> },
   {
     to: "/budget",
     path: "/budget/*",

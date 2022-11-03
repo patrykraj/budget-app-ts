@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import InfoElement from "./InfoElement";
 import ParentCategory from "./ParentCategory";
 

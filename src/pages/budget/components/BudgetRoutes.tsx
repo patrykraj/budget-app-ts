@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import budgetRoutes from "../../../static/budgetRoutes";
@@ -6,12 +5,7 @@ import budgetRoutes from "../../../static/budgetRoutes";
 const BudgetRoutes = () => (
   <Routes>
     {budgetRoutes.map((route) => (
-      <Route
-        key={route.id}
-        path={route.path}
-        exact={route.exact}
-        element={route.element()}
-      />
+      <Route key={route.id} path={route.path} element={route.element()} />
     ))}
   </Routes>
 );
