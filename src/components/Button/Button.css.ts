@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-const RootButton = styled.button`
+const RootButton = styled.button<any>`
   display: block;
   border: none;
   transition: all 0.2s;
@@ -59,7 +59,7 @@ export const InlineButton = styled(RootButton)`
   }
 `;
 
-export const CrossButton = styled.button`
+export const CrossButton = styled.button<any>`
   background: transparent;
   cursor: pointer;
   border: 0;

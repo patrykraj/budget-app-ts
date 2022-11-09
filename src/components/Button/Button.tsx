@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
-import PropTypes from "prop-types";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
+
 import { buttonTypes } from "../../static/constants";
+import { ButtonProps } from "./ButtonTypes";
 
 import {
   RegularButton,
@@ -10,7 +11,14 @@ import {
   ButtonLoader,
 } from "./Button.css";
 
-function Button({ type, children, active, onclick, loading, ...props }) {
+const Button: React.FC<ButtonProps> = ({
+  type,
+  children,
+  active,
+  onclick,
+  loading,
+  ...props
+}) => {
   const { regular, inline, cross } = buttonTypes;
 
   const ButtonContainer = useMemo(() => {
@@ -26,17 +34,19 @@ function Button({ type, children, active, onclick, loading, ...props }) {
     }
   }, [type]);
 
-  if (props.to)
+  if (props.to) {
+    const transformedLink = props.to.slice(1);
+
     return (
       <Link
-        {...props}
+        to={transformedLink}
         onClick={
           onclick
-            ? (e) => {
+            ? (e: React.MouseEvent<HTMLElement>) => {
                 e.stopPropagation();
-                onclick(props.to.slice(1));
+                onclick(transformedLink);
               }
-            : null
+            : undefined
         }
         style={{ textDecoration: "none" }}
       >
@@ -47,6 +57,7 @@ function Button({ type, children, active, onclick, loading, ...props }) {
         )}
       </Link>
     );
+  }
 
   return type === cross ? (
     <ButtonContainer onClick={onclick}>&times;</ButtonContainer>
@@ -55,23 +66,6 @@ function Button({ type, children, active, onclick, loading, ...props }) {
       {loading ? <ButtonLoader /> : children}
     </ButtonContainer>
   );
-}
+};
 
 export default Button;
-
-Button.defaultProps = {
-  to: "",
-  active: null,
-  onclick: () => {},
-  loading: false,
-  children: null,
-};
-
-Button.propTypes = {
-  type: PropTypes.string.isRequired,
-  children: PropTypes.node,
-  active: PropTypes.bool,
-  onclick: PropTypes.func,
-  to: PropTypes.string,
-  loading: PropTypes.bool,
-};

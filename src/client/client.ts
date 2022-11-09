@@ -1,5 +1,5 @@
 const url = process.env.REACT_APP_API_URL;
-import { IData } from "./types";
+import { IData } from "./ClientTypes";
 
 const client = {
   get: (query: string) => fetch(`${url}/${query}`),

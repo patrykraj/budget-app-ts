@@ -12,7 +12,7 @@ function modifyZeroValuesDate(month) {
   return "";
 }
 
-export function prepareDates(selectedDate) {
+export function prepareDates(selectedDate?: Date) {
   const date = selectedDate ? new Date(selectedDate) : new Date();
   const startDate = `${date.getFullYear()}-${modifyZeroValuesDate(
     date.getMonth()

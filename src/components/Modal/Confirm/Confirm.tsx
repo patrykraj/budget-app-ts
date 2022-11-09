@@ -1,7 +1,6 @@
-import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 
+import { useAppDispatch, useAppSelector } from "../../../hooks/";
 import Loader from "../../Loader";
 import Button from "../../Button";
 import { deleteTransaction } from "../../../store/features/transactionsSlice";
@@ -14,21 +13,21 @@ import {
 const FallbackElement = () => <p>{confirmStrings.transactionNotFound}</p>;
 
 const Confirm = () => {
-  let { id } = useParams();
+  const { id } = useParams();
 
-  if (Number.isNaN(id)) return <FallbackElement />;
-  id = parseInt(id, 10);
+  if (!id || Number.isNaN(id)) return <FallbackElement />;
+  const convertedId = parseInt(id, 10);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { transactions, isTransactionsLoading } = useSelector(
+  const { transactions, isTransactionsLoading } = useAppSelector(
     (store) => store.transactions
   );
 
   if (isTransactionsLoading) return <Loader />;
 
   const description = transactions.find(
-    (transaction) => transaction.id === id
+    (transaction) => transaction.id === convertedId
   )?.description;
 
   if (!description) return <FallbackElement />;
@@ -36,7 +35,7 @@ const Confirm = () => {
   const { confirm, cancel, deleteConfirmation } = confirmStrings;
   const { regular } = buttonTypes;
   const handleDeleteElement = async () => {
-    await dispatch(deleteTransaction(id));
+    await dispatch(deleteTransaction(convertedId));
     navigate(navigationStrings.budget);
   };
 

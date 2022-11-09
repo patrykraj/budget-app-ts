@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import client from "../../client";
 import { userId } from "../../static/constants";
 import {
@@ -8,8 +9,9 @@ import {
   validatePayloadDate,
   validateResponse,
 } from "../../utils";
+import { SliceState } from "./types";
 
-const initialState = {
+const initialState: SliceState = {
   transactions: [],
   spentAmount: {},
   isTransactionsLoading: true,
@@ -58,7 +60,7 @@ export const addTransaction = createAsyncThunk(
 
 export const deleteTransaction = createAsyncThunk(
   "transactions/deleteTransaction",
-  (id, { rejectWithValue }) => {
+  (id: number, { rejectWithValue }) => {
     return client
       .delete(`transactions/${id}`)
       .then((res) => validateResponse(res))
